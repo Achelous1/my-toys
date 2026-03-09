@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연금복권 번호 생성기 - 720+ 맞춤 번호 생성 | My Toys</title>
+    <meta name="description" content="연금복권720+ 번호를 조건에 맞게 자동 생성하는 무료 도구입니다. 조 선택, 포함/제외 숫자 설정, 연속 동일 숫자 제한 등 다양한 옵션을 지원합니다.">
+    <meta name="keywords" content="연금복권 번호 생성기, 연금복권720, 연금복권 자동번호, 연금복권 당첨, 무료 복권 생성">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="My Toys">
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="연금복권 번호 생성기 - 720+ 맞춤 번호 생성">
+    <meta property="og:description" content="연금복권720+ 번호를 조건에 맞게 자동 생성하는 무료 도구입니다. 조 선택, 포함/제외 숫자 설정, 연속 동일 숫자 제한 등 다양한 옵션을 지원합니다.">
+    <meta property="og:locale" content="ko_KR">
+    <meta property="og:site_name" content="My Toys">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="연금복권 번호 생성기 - 720+ 맞춤 번호 생성">
+    <meta name="twitter:description" content="연금복권720+ 번호를 조건에 맞게 자동 생성하는 무료 도구. 조 선택, 포함/제외 숫자, 연속 동일 숫자 제한 등 다양한 옵션 지원.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google AdSense -->
+    <meta name="google-adsense-account" content="ca-pub-4857107637953203">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4857107637953203"
+         crossorigin="anonymous"></script>
+    <!-- JSON-LD 구조화 데이터 -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "연금복권 번호 생성기",
+      "description": "연금복권720+ 번호를 조건에 맞게 자동 생성하는 무료 도구. 조 선택, 포함/제외 숫자 설정, 연속 동일 숫자 제한 등 다양한 옵션을 지원합니다.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "ko",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "KRW"
+      }
+    }
+    </script>
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes numberReveal {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .animate-reveal {
+            animation: numberReveal 0.4s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
+    <div class="max-w-6xl mx-auto">
+        <!-- 헤더 -->
+        <div class="text-center mb-8">
+            <a href="index.html" class="inline-block mb-4 text-sm text-blue-600 hover:text-blue-800 transition-colors">← 홈으로 돌아가기</a>
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">🎰 연금복권 번호 생성기</h1>
+            <p class="text-gray-600">조건을 설정하고 행운의 연금복권720+ 번호를 생성하세요</p>
+        </div>
+
+        <!-- 성공 알림 -->
+        <div id="successAlert" class="mb-4 p-3 bg-green-50 border border-green-200 rounded-lg hidden animate-fade-in">
+            <p class="text-sm text-green-800">✨ 최신 당첨번호 조회 성공!</p>
+        </div>
+        <!-- 에러 알림 -->
+        <div id="errorAlert" class="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg hidden">
+            <p class="text-sm text-yellow-800" id="errorMessage"></p>
+            <button onclick="fetchLatestNumbers()" class="text-xs text-yellow-700 underline mt-1 hover:text-yellow-900">
+                다시 시도
+            </button>
+        </div>
+
+        <!-- 메인 컨텐츠 -->
+        <div class="grid md:grid-cols-2 gap-6">
+            <!-- 설정 패널 -->
+            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
+                <h2 class="text-xl font-semibold mb-6">생성 설정</h2>
+                <div class="space-y-5">
+
+                    <!-- 조 선택 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">조 선택</label>
+                        <select id="joSelect"
+                            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 bg-white">
+                            <option value="0">랜덤 (자동 선택)</option>
+                            <option value="1">1조</option>
+                            <option value="2">2조</option>
+                            <option value="3">3조</option>
+                            <option value="4">4조</option>
+                            <option value="5">5조</option>
+                        </select>
+                    </div>
+
+                    <!-- 생성 개수 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">
+                            생성할 번호 세트 개수
+                        </label>
+                        <input type="number" id="count" min="1" max="50" value="5"
+                            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- 최근 당첨번호 제외 -->
+                    <div class="border-t pt-4">
+                        <div class="flex items-start gap-2">
+                            <input type="checkbox" id="excludePrevious" class="w-4 h-4 mt-0.5 text-blue-600 rounded" disabled>
+                            <label for="excludePrevious" class="text-sm text-gray-700 flex-1">
+                                최근 당첨 조합 제외
+                                <span id="latestInfo" class="block text-xs text-gray-500 mt-1">조회 중...</span>
+                            </label>
+                            <button onclick="fetchLatestNumbers()" id="refreshBtn"
+                                class="p-1 text-gray-500 hover:text-blue-600 transition-colors" title="새로고침">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 포함할 숫자 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            포함할 숫자
+                        </label>
+                        <p class="text-xs text-gray-400 mb-2">반드시 포함할 숫자(0~9)를 콤마로 구분 (예: 3, 7)</p>
+                        <input type="text" id="includeDigits" placeholder="예: 3, 7"
+                            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- 제외할 숫자 -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">
+                            제외할 숫자
+                        </label>
+                        <p class="text-xs text-gray-400 mb-2">포함하지 않을 숫자(0~9)를 콤마로 구분 (예: 0, 1)</p>
+                        <input type="text" id="excludeDigits" placeholder="예: 0, 1"
+                            class="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500">
+                    </div>
+
+                    <!-- 연속 동일 숫자 제한 -->
+                    <div class="border-t pt-4 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="enableMaxConsecutive" class="w-4 h-4 text-blue-600 rounded"
+                                onchange="document.getElementById('maxConsecutiveSame').disabled = !this.checked">
+                            <label for="enableMaxConsecutive" class="text-sm text-gray-700">
+                                연속 동일 숫자 제한
+                            </label>
+                            <select id="maxConsecutiveSame" disabled
+                                class="ml-auto p-1 border border-gray-300 rounded text-sm disabled:opacity-40">
+                                <option value="1">최대 1개 (연속 불가)</option>
+                                <option value="2" selected>최대 2개 (예: 33 허용)</option>
+                                <option value="3">최대 3개 (예: 333 허용)</option>
+                                <option value="4">최대 4개 (예: 3333 허용)</option>
+                                <option value="5">최대 5개 (예: 33333 허용)</option>
+                            </select>
+                        </div>
+                        <p class="text-xs text-gray-400 ml-6">예: 최대 2개 → <span class="font-mono">336712</span> ✅ &nbsp;<span class="font-mono">333712</span> ❌</p>
+
+                        <!-- 동일 숫자 최대 등장 횟수 -->
+                        <div class="flex items-center gap-2">
+                            <input type="checkbox" id="enableMaxSameCount" class="w-4 h-4 text-blue-600 rounded"
+                                onchange="document.getElementById('maxSameDigitCount').disabled = !this.checked">
+                            <label for="enableMaxSameCount" class="text-sm text-gray-700">
+                                같은 숫자 최대 등장 횟수
+                            </label>
+                            <select id="maxSameDigitCount" disabled
+                                class="ml-auto p-1 border border-gray-300 rounded text-sm disabled:opacity-40">
+                                <option value="1">최대 1번</option>
+                                <option value="2" selected>최대 2번</option>
+                                <option value="3">최대 3번</option>
+                                <option value="4">최대 4번</option>
+                                <option value="5">최대 5번</option>
+                            </select>
+                        </div>
+                        <p class="text-xs text-gray-400 ml-6">예: 최대 2번 → <span class="font-mono">101536</span> ✅ &nbsp;<span class="font-mono">101516</span> ❌ (1이 3번)</p>
+                    </div>
+                </div>
+
+                <!-- 버튼 -->
+                <div class="flex gap-2 mt-6">
+                    <button onclick="generateNumbers()"
+                        class="flex-1 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition-colors font-medium shadow-sm">
+                        번호 생성
+                    </button>
+                    <button onclick="resetSettings()"
+                        class="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50 transition-colors">
+                        초기화
+                    </button>
+                </div>
+            </div>
+
+            <!-- 결과 패널 -->
+            <div class="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-xl font-semibold">생성된 번호</h2>
+                    <button onclick="copyToClipboard()" id="copyBtn"
+                        class="hidden items-center gap-2 px-3 py-1 text-sm bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors">
+                        복사
+                    </button>
+                </div>
+                <div id="resultsContainer">
+                    <div class="text-center py-12 text-gray-500">
+                        <div class="text-6xl mb-4">🎰</div>
+                        <p>조건을 설정하고 '번호 생성' 버튼을 눌러주세요</p>
+                    </div>
+                </div>
+
+                <!-- 당첨 등수 안내 -->
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <h3 class="text-sm font-medium text-gray-700 mb-3">당첨 등수 안내</h3>
+                    <div class="space-y-1.5 text-xs text-gray-600">
+                        <div class="flex justify-between">
+                            <span><span class="font-semibold text-yellow-600">1등</span> 조 + 6자리 모두 일치</span>
+                            <span class="text-gray-500">월 700만원 × 20년</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span><span class="font-semibold text-blue-600">2등</span> 다른 조 + 6자리 일치</span>
+                            <span class="text-gray-500">월 100만원 × 10년</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span><span class="font-semibold text-purple-600">보너스</span> 보너스 6자리 일치</span>
+                            <span class="text-gray-500">월 100만원 × 10년</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span><span class="font-semibold text-gray-700">3등</span> 끝 5자리 일치</span>
+                            <span class="text-gray-500">100만원</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span><span class="font-semibold text-gray-700">4등</span> 끝 4자리 일치</span>
+                            <span class="text-gray-500">10만원</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span><span class="font-semibold text-gray-700">5등</span> 끝 3자리 일치</span>
+                            <span class="text-gray-500">5만원</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span><span class="font-semibold text-gray-700">6등</span> 끝 2자리 일치</span>
+                            <span class="text-gray-500">5천원</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 푸터 -->
+        <div class="mt-8 text-center text-xs text-gray-500 space-y-1">
+            <p>※ 본 생성기는 재미를 위한 도구입니다. 당첨을 보장하지 않습니다.</p>
+            <p id="footerInfo"></p>
+            <p class="text-gray-400 pt-1">
+                © 2026 My Toys ·
+                <a href="privacy-policy.html" class="hover:text-gray-600 transition-colors">개인정보처리방침</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // 전역 변수
+        let latestJo = null;
+        let latestNumber = null;
+        let latestBonusNumber = null;
+        let latestRound = null;
+        let latestDrawDate = null;
+        let generatedSets = [];
+
+        // 조 색상
+        const JO_COLORS = {
+            1: { bg: 'bg-yellow-400', text: 'text-black', label: '1조' },
+            2: { bg: 'bg-blue-500',   text: 'text-white', label: '2조' },
+            3: { bg: 'bg-red-500',    text: 'text-white', label: '3조' },
+            4: { bg: 'bg-green-500',  text: 'text-white', label: '4조' },
+            5: { bg: 'bg-purple-500', text: 'text-white', label: '5조' },
+        };
+
+        // 캐시 관리
+        function getCachedData() {
+            try {
+                const cached = localStorage.getItem('latestPensionData');
+                if (cached) {
+                    const data = JSON.parse(cached);
+                    if (new Date() - new Date(data.timestamp) < 6 * 60 * 60 * 1000) return data;
+                }
+            } catch (e) {}
+            return null;
+        }
+
+        function cacheData(round, jo, number, bonus, date) {
+            try {
+                localStorage.setItem('latestPensionData', JSON.stringify({
+                    round, jo, number, bonus, date,
+                    timestamp: new Date().toISOString()
+                }));
+            } catch (e) {}
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr || dateStr.length !== 8) return dateStr;
+            return `${dateStr.slice(0,4)}.${dateStr.slice(4,6)}.${dateStr.slice(6,8)}`;
+        }
+
+        // 최신 당첨번호 조회
+        async function fetchLatestNumbers() {
+            const refreshBtn = document.getElementById('refreshBtn');
+            refreshBtn.querySelector('svg').classList.add('animate-spin');
+
+            // 캐시 먼저 적용
+            const cached = getCachedData();
+            if (cached) {
+                applyFetchedData(cached.round, cached.jo, cached.number, cached.bonus, cached.date);
+            }
+
+            try {
+                const url = 'https://www.dhlottery.co.kr/lt720/selectPstLt720Info.do';
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+
+                if (data?.data?.list?.length > 0) {
+                    const item = data.data.list[0];
+                    const round = parseInt(item.ltEpsd);
+                    const jo = parseInt(item.joWnNo ?? item.jo ?? item.joNo);
+                    const number = String(item.sixWnNo ?? item.wnNo ?? item.wlmNo ?? '').padStart(6, '0');
+                    const bonus = String(item.bnsWnNo ?? '').padStart(6, '0');
+                    const date = formatDate(item.ltRflYmd ?? item.drwYmd ?? '');
+
+                    if (round > 0 && jo >= 1 && jo <= 5 && number.length === 6) {
+                        cacheData(round, jo, number, bonus, date);
+                        applyFetchedData(round, jo, number, bonus, date);
+                        showSuccess(`${round}회차 - ${date}`);
+                        hideError();
+                    } else {
+                        throw new Error('데이터 형식 오류');
+                    }
+                } else {
+                    throw new Error('당첨번호 없음');
+                }
+            } catch (error) {
+                console.error('조회 오류:', error);
+                if (!cached) {
+                    showError(`최신 당첨번호 조회 실패: ${error.message}`);
+                    updateLatestInfo(false);
+                }
+            } finally {
+                refreshBtn.querySelector('svg').classList.remove('animate-spin');
+            }
+        }
+
+        function applyFetchedData(round, jo, number, bonus, date) {
+            latestRound = round;
+            latestJo = jo;
+            latestNumber = number;
+            latestBonusNumber = bonus;
+            latestDrawDate = date;
+            updateLatestInfo(true);
+        }
+
+        function updateLatestInfo(success) {
+            const latestInfo = document.getElementById('latestInfo');
+            const footerInfo = document.getElementById('footerInfo');
+            const checkbox = document.getElementById('excludePrevious');
+
+            if (success && latestRound && latestNumber) {
+                const info = `${latestRound}회 (${latestDrawDate}): ${latestJo}조 ${latestNumber.slice(0,3)}-${latestNumber.slice(3)}`;
+                latestInfo.textContent = info;
+                footerInfo.textContent = `최신 당첨번호: ${info}`;
+                checkbox.disabled = false;
+            } else {
+                latestInfo.textContent = '조회 실패 - 이 기능을 사용할 수 없습니다';
+                footerInfo.textContent = '';
+                checkbox.disabled = true;
+                checkbox.checked = false;
+            }
+        }
+
+        function showSuccess(message) {
+            const alert = document.getElementById('successAlert');
+            alert.querySelector('p').textContent = `✨ 최신 당첨번호 조회 성공! (${message})`;
+            alert.classList.remove('hidden');
+            setTimeout(() => alert.classList.add('hidden'), 3000);
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            document.getElementById('errorAlert').classList.remove('hidden');
+        }
+
+        function hideError() {
+            document.getElementById('errorAlert').classList.add('hidden');
+        }
+
+        // 입력 파싱 (0~9 숫자만)
+        function parseDigitInput(value) {
+            if (!value.trim()) return new Set();
+            const digits = new Set();
+            value.split(',').forEach(s => {
+                const n = s.trim();
+                if (/^[0-9]$/.test(n)) digits.add(n);
+            });
+            return digits;
+        }
+
+        // 번호 하나 생성
+        function generateOne(options) {
+            const { selectedJo, includeDigits, excludeDigits,
+                    maxConsecutiveSame, maxSameDigitCount, excludedCombos } = options;
+
+            const MAX = 2000;
+            for (let i = 0; i < MAX; i++) {
+                const jo = selectedJo || (Math.floor(Math.random() * 5) + 1);
+                const num = Math.floor(Math.random() * 1000000);
+                const numStr = num.toString().padStart(6, '0');
+
+                // 포함 숫자 체크
+                if (includeDigits.size > 0) {
+                    let ok = true;
+                    for (const d of includeDigits) {
+                        if (!numStr.includes(d)) { ok = false; break; }
+                    }
+                    if (!ok) continue;
+                }
+
+                // 제외 숫자 체크
+                if (excludeDigits.size > 0) {
+                    let bad = false;
+                    for (const d of excludeDigits) {
+                        if (numStr.includes(d)) { bad = true; break; }
+                    }
+                    if (bad) continue;
+                }
+
+                // 연속 동일 숫자 체크
+                if (maxConsecutiveSame > 0) {
+                    let consec = 1, tooMany = false;
+                    for (let j = 1; j < numStr.length; j++) {
+                        if (numStr[j] === numStr[j - 1]) {
+                            consec++;
+                            if (consec > maxConsecutiveSame) { tooMany = true; break; }
+                        } else {
+                            consec = 1;
+                        }
+                    }
+                    if (tooMany) continue;
+                }
+
+                // 동일 숫자 최대 등장 횟수 체크
+                if (maxSameDigitCount > 0) {
+                    const counts = {};
+                    for (const d of numStr) counts[d] = (counts[d] || 0) + 1;
+                    if (Object.values(counts).some(c => c > maxSameDigitCount)) continue;
+                }
+
+                // 최근 당첨 조합 제외
+                if (excludedCombos.has(`${jo}:${numStr}`)) continue;
+
+                return { jo, numStr };
+            }
+            return null;
+        }
+
+        // 번호 생성
+        function generateNumbers() {
+            const count = Math.min(50, Math.max(1, parseInt(document.getElementById('count').value) || 5));
+            const selectedJo = parseInt(document.getElementById('joSelect').value); // 0 = random
+
+            const includeDigits = parseDigitInput(document.getElementById('includeDigits').value);
+            const excludeDigits = parseDigitInput(document.getElementById('excludeDigits').value);
+
+            const enableConsec = document.getElementById('enableMaxConsecutive').checked;
+            const maxConsecutiveSame = enableConsec ? parseInt(document.getElementById('maxConsecutiveSame').value) : 0;
+
+            const enableSameCount = document.getElementById('enableMaxSameCount').checked;
+            const maxSameDigitCount = enableSameCount ? parseInt(document.getElementById('maxSameDigitCount').value) : 0;
+
+            const excludePrevious = document.getElementById('excludePrevious').checked;
+            const excludedCombos = new Set();
+            if (excludePrevious && latestJo && latestNumber) {
+                excludedCombos.add(`${latestJo}:${latestNumber}`);
+            }
+
+            // 포함/제외 겹침 검사
+            for (const d of includeDigits) {
+                if (excludeDigits.has(d)) {
+                    alert(`숫자 ${d}가 포함할 숫자와 제외할 숫자에 동시에 있습니다.`);
+                    return;
+                }
+            }
+
+            const options = { selectedJo, includeDigits, excludeDigits,
+                              maxConsecutiveSame, maxSameDigitCount, excludedCombos };
+
+            generatedSets = [];
+            let failCount = 0;
+            for (let i = 0; i < count; i++) {
+                const result = generateOne(options);
+                if (result) {
+                    generatedSets.push(result);
+                } else {
+                    failCount++;
+                }
+            }
+
+            renderResults(failCount);
+        }
+
+        function renderResults(failCount) {
+            const container = document.getElementById('resultsContainer');
+            const copyBtn = document.getElementById('copyBtn');
+
+            if (generatedSets.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-12 text-gray-500">
+                        <div class="text-5xl mb-4">😢</div>
+                        <p class="font-medium">조건에 맞는 번호를 생성할 수 없습니다</p>
+                        <p class="text-sm mt-2 text-gray-400">조건을 완화하거나 초기화 후 다시 시도하세요</p>
+                    </div>`;
+                copyBtn.classList.add('hidden');
+                copyBtn.classList.remove('flex');
+                return;
+            }
+
+            let html = '<div class="space-y-3">';
+            generatedSets.forEach((set, idx) => {
+                const joColor = JO_COLORS[set.jo];
+                const n = set.numStr;
+                const formatted = `${n.slice(0,3)}-${n.slice(3)}`;
+                html += `
+                    <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg animate-reveal"
+                         style="animation-delay: ${idx * 50}ms">
+                        <span class="text-xs text-gray-400 w-6 text-right">${idx + 1}</span>
+                        <span class="inline-flex items-center justify-center w-10 h-10 rounded-full text-sm font-bold ${joColor.bg} ${joColor.text} shadow-sm flex-shrink-0">
+                            ${set.jo}조
+                        </span>
+                        <span class="font-mono text-2xl font-bold tracking-widest text-gray-800 flex-1">
+                            ${n[0]}<span class="text-gray-400 mx-0.5 text-lg font-normal"> </span>${n[1]}<span class="text-gray-400 mx-0.5 text-lg font-normal"> </span>${n[2]}<span class="mx-2 text-gray-300">-</span>${n[3]}<span class="text-gray-400 mx-0.5 text-lg font-normal"> </span>${n[4]}<span class="text-gray-400 mx-0.5 text-lg font-normal"> </span>${n[5]}
+                        </span>
+                    </div>`;
+            });
+            html += '</div>';
+
+            if (failCount > 0) {
+                html += `<p class="mt-3 text-xs text-yellow-600">⚠ 조건을 만족하는 번호를 찾지 못해 ${failCount}세트가 생략되었습니다.</p>`;
+            }
+
+            container.innerHTML = html;
+            copyBtn.classList.remove('hidden');
+            copyBtn.classList.add('flex');
+        }
+
+        // 클립보드 복사
+        function copyToClipboard() {
+            if (!generatedSets.length) return;
+            const text = generatedSets.map((s, i) =>
+                `${i + 1}. ${s.jo}조 ${s.numStr.slice(0,3)}-${s.numStr.slice(3)}`
+            ).join('\n');
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copyBtn');
+                const orig = btn.textContent;
+                btn.textContent = '복사됨!';
+                setTimeout(() => { btn.textContent = orig; }, 2000);
+            });
+        }
+
+        // 초기화
+        function resetSettings() {
+            document.getElementById('joSelect').value = '0';
+            document.getElementById('count').value = '5';
+            document.getElementById('excludePrevious').checked = false;
+            document.getElementById('includeDigits').value = '';
+            document.getElementById('excludeDigits').value = '';
+            document.getElementById('enableMaxConsecutive').checked = false;
+            document.getElementById('maxConsecutiveSame').value = '2';
+            document.getElementById('maxConsecutiveSame').disabled = true;
+            document.getElementById('enableMaxSameCount').checked = false;
+            document.getElementById('maxSameDigitCount').value = '2';
+            document.getElementById('maxSameDigitCount').disabled = true;
+
+            generatedSets = [];
+            document.getElementById('resultsContainer').innerHTML = `
+                <div class="text-center py-12 text-gray-500">
+                    <div class="text-6xl mb-4">🎰</div>
+                    <p>조건을 설정하고 '번호 생성' 버튼을 눌러주세요</p>
+                </div>`;
+            document.getElementById('copyBtn').classList.add('hidden');
+            document.getElementById('copyBtn').classList.remove('flex');
+        }
+
+        // 초기 로드
+        fetchLatestNumbers();
+    </script>
+</body>
+</html>
