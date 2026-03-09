@@ -314,8 +314,8 @@
                     const jo     = parseInt(item.wnBndNo ?? 0) || null;
                     const number = extract6(item.wnRnkVl);
                     const bonus  = extract6(item.bnsRnkVl);
-                    const round  = parseInt(item.ltEpsd ?? item.epsdId ?? item.drwNo ?? 0);
-                    const date   = formatDate(item.ltRflYmd ?? item.drwYmd ?? '');
+                    const round  = parseInt(item.psltEpsd ?? 0);
+                    const date   = formatDate(item.psltRflYmd ?? '');
 
                     if (number) {
                         setCachedData(round, jo, number, bonus, date);
