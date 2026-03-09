@@ -247,6 +247,7 @@
 
     <script>
         // 전역 변수
+        let latestJo = null;
         let latestNumber = null;
         let latestBonusNumber = null;
         let latestRound = null;
@@ -273,10 +274,10 @@
             return null;
         }
 
-        function setCachedData(round, number, bonus, date) {
+        function setCachedData(round, jo, number, bonus, date) {
             try {
                 localStorage.setItem('latestPensionData', JSON.stringify({
-                    round, number, bonus, date, timestamp: new Date().toISOString()
+                    round, jo, number, bonus, date, timestamp: new Date().toISOString()
                 }));
             } catch (e) {}
         }
@@ -292,7 +293,7 @@
 
             // 캐시 우선 적용
             const cached = getCachedData();
-            if (cached) applyData(cached.round, cached.number, cached.bonus, cached.date);
+            if (cached) applyData(cached.round, cached.jo, cached.number, cached.bonus, cached.date);
 
             try {
                 const res = await fetch('https://www.dhlottery.co.kr/pt720/selectPstPt720WnList.do', {
@@ -310,14 +311,15 @@
                     // 6자리 숫자 추출 (값이 "3조 123456" 등 다양한 형식일 수 있음)
                     const extract6 = v => { const m = String(v ?? '').match(/(\d{6})/); return m ? m[1] : null; };
 
+                    const jo     = parseInt(item.wnBndNo ?? 0) || null;
                     const number = extract6(item.wnRnkVl);
                     const bonus  = extract6(item.bnsRnkVl);
                     const round  = parseInt(item.ltEpsd ?? item.epsdId ?? item.drwNo ?? 0);
                     const date   = formatDate(item.ltRflYmd ?? item.drwYmd ?? '');
 
                     if (number) {
-                        setCachedData(round, number, bonus, date);
-                        applyData(round, number, bonus, date);
+                        setCachedData(round, jo, number, bonus, date);
+                        applyData(round, jo, number, bonus, date);
                         showSuccess(round ? `${round}회차 - ${date}` : date);
                         hideError();
                         return;
@@ -335,15 +337,17 @@
             }
         }
 
-        function applyData(round, number, bonus, date) {
+        function applyData(round, jo, number, bonus, date) {
             latestRound = round;
+            latestJo = jo;
             latestNumber = number;
             latestBonusNumber = bonus;
             latestDrawDate = date;
 
             const roundLabel = round ? `${round}회 (${date})` : date;
+            const joLabel = jo ? `${jo}조 ` : '';
             const bonusLabel = bonus ? ` / 보너스: ${bonus}` : '';
-            const info = `${roundLabel}: ${number}${bonusLabel}`;
+            const info = `${roundLabel}: ${joLabel}${number}${bonusLabel}`;
             document.getElementById('latestInfo').textContent = info;
             document.getElementById('footerInfo').textContent = `최신 당첨번호: ${info}`;
             document.getElementById('excludePrevious').disabled = false;
