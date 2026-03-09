@@ -296,8 +296,8 @@
 
             try {
                 const res = await fetch('https://www.dhlottery.co.kr/pt720/selectPstPt720WnList.do', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
+                    method: 'GET',
+                    headers: { 'Accept': 'application/json' }
                 });
                 const text = await res.text();
 
