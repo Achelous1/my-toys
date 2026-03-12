@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 110 58">
+  <defs>
+    <!-- Main gold gradient (top to bottom) -->
+    <linearGradient id="goldV" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#FFF0A0"/>
+      <stop offset="18%"  stop-color="#F5C800"/>
+      <stop offset="45%"  stop-color="#C89B00"/>
+      <stop offset="72%"  stop-color="#E8B800"/>
+      <stop offset="100%" stop-color="#9A7200"/>
+    </linearGradient>
+    <!-- Shine gradient (left to right across face) -->
+    <linearGradient id="goldH" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#7A5800" stop-opacity="0.5"/>
+      <stop offset="22%"  stop-color="#FFE566" stop-opacity="0.7"/>
+      <stop offset="50%"  stop-color="#FFFDE0" stop-opacity="0.6"/>
+      <stop offset="78%"  stop-color="#E8C000" stop-opacity="0.4"/>
+      <stop offset="100%" stop-color="#7A5800" stop-opacity="0.5"/>
+    </linearGradient>
+    <!-- Top edge highlight -->
+    <linearGradient id="topEdge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#8B6800"/>
+      <stop offset="30%"  stop-color="#FFF0A0"/>
+      <stop offset="70%"  stop-color="#F0D040"/>
+      <stop offset="100%" stop-color="#8B6800"/>
+    </linearGradient>
+    <!-- Bevel gradient for left/right edges -->
+    <linearGradient id="sideL" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#5A4200"/>
+      <stop offset="100%" stop-color="#C89B00"/>
+    </linearGradient>
+    <linearGradient id="sideR" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#C89B00"/>
+      <stop offset="100%" stop-color="#5A4200"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ── Drop shadow ── -->
+  <rect x="6" y="11" width="98" height="42" rx="6" ry="6"
+        fill="#2A1800" opacity="0.55"/>
+
+  <!-- ── 3‑D bevel: bottom face (dark) ── -->
+  <rect x="4" y="12" width="98" height="42" rx="6" ry="6"
+        fill="#7A5800"/>
+
+  <!-- ── Main face ── -->
+  <rect x="4" y="6" width="98" height="42" rx="6" ry="6"
+        fill="url(#goldV)"/>
+
+  <!-- ── Top‑edge bright strip ── -->
+  <rect x="6" y="7" width="94" height="7" rx="3" ry="3"
+        fill="url(#topEdge)" opacity="0.75"/>
+
+  <!-- ── Left bevel ── -->
+  <rect x="4" y="8" width="5" height="36" rx="2"
+        fill="url(#sideL)" opacity="0.6"/>
+
+  <!-- ── Right bevel ── -->
+  <rect x="101" y="8" width="5" height="36" rx="2"
+        fill="url(#sideR)" opacity="0.5"/>
+
+  <!-- ── Shine overlay ── -->
+  <rect x="6" y="8" width="94" height="36" rx="5"
+        fill="url(#goldH)" opacity="0.45"/>
+
+  <!-- ── Engraved border line ── -->
+  <rect x="9" y="11" width="88" height="28" rx="3" ry="3"
+        fill="none" stroke="#7A5800" stroke-width="1.2" opacity="0.5"/>
+
+  <!-- ── BAR text – shadow ── -->
+  <text x="55" y="33"
+        font-family="Impact, 'Arial Black', Arial, sans-serif"
+        font-size="30" font-weight="900"
+        text-anchor="middle" dominant-baseline="middle"
+        fill="#3D2800" stroke="#3D2800" stroke-width="3"
+        letter-spacing="4">BAR</text>
+
+  <!-- ── BAR text – main dark fill ── -->
+  <text x="55" y="33"
+        font-family="Impact, 'Arial Black', Arial, sans-serif"
+        font-size="30" font-weight="900"
+        text-anchor="middle" dominant-baseline="middle"
+        fill="#1A0D00"
+        letter-spacing="4">BAR</text>
+
+  <!-- ── BAR text – subtle gold glint on upper half ── -->
+  <text x="55" y="29"
+        font-family="Impact, 'Arial Black', Arial, sans-serif"
+        font-size="30" font-weight="900"
+        text-anchor="middle" dominant-baseline="middle"
+        fill="none" stroke="#FFE066" stroke-width="1"
+        opacity="0.22" letter-spacing="4">BAR</text>
+
+  <!-- ── Specular highlight blobs ── -->
+  <ellipse cx="32" cy="15" rx="14" ry="4"
+           fill="white" opacity="0.28"/>
+  <ellipse cx="80" cy="35" rx="8" ry="2.5"
+           fill="white" opacity="0.12"/>
+</svg>
