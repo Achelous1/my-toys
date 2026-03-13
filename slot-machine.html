@@ -334,27 +334,31 @@
         /* Win highlight */
         .reel-col.win-hl .sym-cell { background: #fffce0; }
 
-        /* ─── Lever — chrome shaft + black ball ────── */
+        /* ─── Lever — absolutely positioned in right 20% ── */
         .lever-area {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 20%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 0 6px;
+            justify-content: center;
+            padding: 8px 0;
             cursor: grab;
             user-select: none;
             touch-action: none;
-            position: relative;
-            flex-shrink: 0;
+            z-index: 10;  /* above chrome ::after column */
         }
         .lever-area:active { cursor: grabbing; }
         .lever-shaft {
             width: 11px;
-            height: 100%;
-            /* Ribbed chrome rod */
+            height: 90%;
             background-image:
                 repeating-linear-gradient(
                     180deg,
-                    rgba(255,255,255,.2) 0px,
+                    rgba(255,255,255,.22) 0px,
                     transparent 2px,
                     rgba(0,0,0,.15) 4px,
                     transparent 6px
@@ -366,17 +370,18 @@
             box-shadow: 3px 3px 10px rgba(0,0,0,.8), -1px 0 4px rgba(255,255,255,.3);
         }
         .lever-ball {
-            width: 38px;
-            height: 38px;
-            /* Polished chrome ball — bright specular highlight */
+            width: 40px;
+            height: 40px;
+            /* Glossy red ball */
             background: radial-gradient(circle at 34% 28%,
-                #ffffff 0%, #d8d8d8 18%, #a0a0a0 42%, #404040 70%, #101010 100%);
+                #ffaaaa 0%, #ee3030 22%, #cc0000 50%, #880000 78%, #550000 100%);
             border-radius: 50%;
-            border: 1px solid #282828;
+            border: 1px solid #660000;
             box-shadow:
-                0 6px 18px rgba(0,0,0,.98),
-                inset 3px 3px 7px rgba(255,255,255,.5),
-                inset -3px -3px 6px rgba(0,0,0,.7);
+                0 6px 20px rgba(0,0,0,.95),
+                0 0 12px rgba(200,0,0,.4),
+                inset 4px 4px 9px rgba(255,160,160,.55),
+                inset -3px -3px 7px rgba(0,0,0,.65);
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
@@ -396,7 +401,7 @@
                 linear-gradient(180deg, #c8c8c8, #585858);
             border-radius: 4px;
             position: absolute;
-            bottom: 0;
+            bottom: 8px;
             left: 50%;
             transform: translateX(-50%);
             box-shadow: 0 3px 8px rgba(0,0,0,.7);
