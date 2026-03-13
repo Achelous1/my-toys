@@ -135,57 +135,52 @@
                 linear-gradient(180deg, #d8d4c0, #a09070);
             z-index: 5;
         }
-        /* ─── Paytable panel in header ───────────────── */
-        .paytable-panel { padding: 7px 8px 5px; }
-        .ptp-title {
-            font-family: 'Oswald', sans-serif;
-            font-weight: 700;
-            font-size: 0.65rem;
-            letter-spacing: 0.3em;
-            color: var(--gold-hi);
+        /* ─── Result display in header ───────────────── */
+        .result-display {
+            padding: 10px 16px 8px;
             text-align: center;
-            text-shadow: 0 0 10px rgba(248,224,96,.55), 0 1px 2px #000;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-        }
-        .ptp-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 3px 5px;
-        }
-        .ptp-row {
+            min-height: 58px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
-            background: rgba(255,255,255,.04);
-            border: 1px solid rgba(200,152,12,.2);
-            border-radius: 3px;
-            padding: 2px 5px;
-            gap: 2px;
+            justify-content: center;
         }
-        .ptp-sym {
-            font-size: 0.68rem;
-            letter-spacing: -0.03em;
-            white-space: nowrap;
-        }
-        .ptp-mult {
-            font-family: 'Share Tech Mono', monospace;
-            font-size: 0.64rem;
-            color: var(--gold-hi);
-            text-shadow: 0 0 5px rgba(248,224,96,.45);
-            font-weight: 700;
-            white-space: nowrap;
-        }
-        .ptp-jackpot .ptp-mult { color: #ff6644; text-shadow: 0 0 7px rgba(255,100,68,.6); }
-        .ptp-bar {
+        #result-header {
             font-family: 'Oswald', sans-serif;
             font-weight: 700;
-            font-size: 0.58rem;
-            background: #333;
-            color: #fff;
-            padding: 0 3px;
-            border-radius: 2px;
-            border: 1px solid #666;
+            font-size: 1.45rem;
+            letter-spacing: 0.18em;
+            color: var(--gold-hi);
+            text-shadow: 0 0 18px rgba(248,224,96,.75), 0 2px 0 #000;
+            text-transform: uppercase;
+            transition: color 0.25s, text-shadow 0.25s;
+        }
+        #result-header.state-win {
+            color: #ffff55;
+            text-shadow: 0 0 26px rgba(255,255,0,.9), 0 2px 0 #000;
+            animation: header-win-pulse 0.4s ease-in-out 4;
+        }
+        #result-header.state-lose {
+            color: #888;
+            text-shadow: 0 1px 0 #000;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+        }
+        #result-header.state-spin {
+            color: #88ccff;
+            text-shadow: 0 0 14px rgba(100,190,255,.8), 0 2px 0 #000;
+            letter-spacing: 0.28em;
+        }
+        @keyframes header-win-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+        .result-display-sub {
+            font-size: 0.56rem;
+            letter-spacing: 0.38em;
+            color: #5a5a5a;
+            margin-top: 3px;
+            text-transform: uppercase;
         }
 
         /* ─── Reel section — recessed panel + chrome sides ── */
@@ -521,21 +516,22 @@
         /* ─── Push Button Controls ─────────────────── */
         .controls {
             display: flex;
-            align-items: flex-end;
+            align-items: center;
             justify-content: center;
-            gap: 10px;
-            padding: 4px 0 6px;
+            gap: 14px;
+            padding: 6px 0 8px;
+            flex-wrap: wrap;
         }
-        .btn-group-left, .btn-group-right {
+        .btn-group-center, .btn-group-right {
             display: flex;
-            gap: 8px;
-            align-items: flex-end;
+            gap: 12px;
+            align-items: center;
         }
         .btn-wrap {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 4px;
+            gap: 5px;
         }
         .btn-wrap-label {
             font-size: 0.5rem;
@@ -544,7 +540,7 @@
             text-transform: uppercase;
             text-shadow: 0 1px 0 rgba(255,255,255,.5);
         }
-        /* Generic push-button */
+        /* Generic push-button — flat style */
         .push-btn {
             border: none;
             cursor: pointer;
@@ -561,87 +557,91 @@
             outline: none;
             padding: 0;
         }
-        .push-btn:active:not(:disabled) { transform: translateY(5px); }
+        .push-btn:active:not(:disabled) { transform: translateY(4px); }
         .push-btn:disabled { opacity: .4; cursor: not-allowed; }
-        /* SPIN — large round red */
+        /* SPIN — large round red flat */
         .push-btn-spin {
-            width: 70px;
-            height: 70px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
-            background: radial-gradient(ellipse at 38% 32%,
-                #ff8888 0%, #ee3333 28%, #cc0000 55%, #880000 80%, #5a0000 100%);
+            background: #cc1111;
+            border: 3px solid #880000;
             color: #fff;
             font-size: 1rem;
-            text-shadow: 0 1px 3px rgba(0,0,0,.7);
+            text-shadow: 0 1px 2px rgba(0,0,0,.6);
             box-shadow:
-                0 7px 0 #4a0000,
-                0 10px 22px rgba(0,0,0,.7),
-                inset 0 3px 7px rgba(255,180,180,.45),
-                inset 0 -3px 5px rgba(0,0,0,.4),
-                0 0 0 3px #6a0000,
-                0 0 0 5px rgba(0,0,0,.55);
+                0 5px 0 #660000,
+                0 8px 18px rgba(0,0,0,.55),
+                inset 0 1px 0 rgba(255,140,140,.2);
         }
         .push-btn-spin:active:not(:disabled) {
             box-shadow:
-                0 2px 0 #4a0000,
-                0 4px 10px rgba(0,0,0,.7),
-                inset 0 3px 7px rgba(255,180,180,.45),
-                inset 0 -3px 5px rgba(0,0,0,.4),
-                0 0 0 3px #6a0000,
-                0 0 0 5px rgba(0,0,0,.55);
+                0 1px 0 #660000,
+                0 3px 8px rgba(0,0,0,.55),
+                inset 0 1px 0 rgba(255,140,140,.2);
         }
-        /* BET / MAX — round yellow */
+        /* BET / MAX — round yellow flat */
         .push-btn-yellow {
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
             border-radius: 50%;
-            background: radial-gradient(ellipse at 38% 32%,
-                #ffee88 0%, #ddaa00 30%, #bb8800 58%, #886600 82%, #5a4000 100%);
-            color: #3a2200;
+            background: #ddaa00;
+            border: 3px solid #886600;
+            color: #3a2000;
             font-size: 0.68rem;
-            text-shadow: 0 1px 1px rgba(255,255,255,.25);
+            text-shadow: 0 1px 0 rgba(255,220,80,.3);
             box-shadow:
-                0 6px 0 #3a2800,
-                0 9px 18px rgba(0,0,0,.6),
-                inset 0 3px 5px rgba(255,235,100,.5),
-                inset 0 -3px 4px rgba(0,0,0,.35),
-                0 0 0 2px #5a4000,
-                0 0 0 4px rgba(0,0,0,.5);
+                0 5px 0 #5a3e00,
+                0 7px 14px rgba(0,0,0,.45),
+                inset 0 1px 0 rgba(255,220,80,.2);
         }
         .push-btn-yellow:active:not(:disabled) {
             box-shadow:
-                0 2px 0 #3a2800,
-                0 4px 8px rgba(0,0,0,.6),
-                inset 0 3px 5px rgba(255,235,100,.5),
-                inset 0 -3px 4px rgba(0,0,0,.35),
-                0 0 0 2px #5a4000,
-                0 0 0 4px rgba(0,0,0,.5);
+                0 1px 0 #5a3e00,
+                0 3px 7px rgba(0,0,0,.45),
+                inset 0 1px 0 rgba(255,220,80,.2);
         }
-        /* 배당 — white square */
+        /* 배당 — white square flat */
         .push-btn-white {
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
             border-radius: 8px;
-            background: linear-gradient(160deg, #ffffff 0%, #eaeaea 40%, #d0d0d0 100%);
+            background: #e8e8e8;
+            border: 2px solid #999;
             color: #333;
             font-size: 0.68rem;
             text-shadow: 0 1px 0 rgba(255,255,255,.8);
             box-shadow:
-                0 6px 0 #888,
-                0 9px 18px rgba(0,0,0,.5),
-                inset 0 2px 5px rgba(255,255,255,.9),
-                inset 0 -2px 4px rgba(0,0,0,.15),
-                0 0 0 2px #aaa,
-                0 0 0 4px rgba(0,0,0,.45);
+                0 5px 0 #666,
+                0 7px 14px rgba(0,0,0,.4),
+                inset 0 1px 0 rgba(255,255,255,.6);
         }
         .push-btn-white:active:not(:disabled) {
             box-shadow:
-                0 2px 0 #888,
-                0 4px 8px rgba(0,0,0,.5),
-                inset 0 2px 5px rgba(255,255,255,.9),
-                inset 0 -2px 4px rgba(0,0,0,.15),
-                0 0 0 2px #aaa,
-                0 0 0 4px rgba(0,0,0,.45);
+                0 1px 0 #666,
+                0 3px 7px rgba(0,0,0,.4),
+                inset 0 1px 0 rgba(255,255,255,.6);
+        }
+        /* 리셋 — gray square flat */
+        .push-btn-gray {
+            width: 52px;
+            height: 52px;
+            border-radius: 8px;
+            background: #b8b8b8;
+            border: 2px solid #808080;
+            color: #333;
+            font-size: 0.68rem;
+            text-shadow: 0 1px 0 rgba(255,255,255,.5);
+            box-shadow:
+                0 5px 0 #555,
+                0 7px 14px rgba(0,0,0,.35),
+                inset 0 1px 0 rgba(255,255,255,.5);
+        }
+        .push-btn-gray:active:not(:disabled) {
+            box-shadow:
+                0 1px 0 #555,
+                0 3px 7px rgba(0,0,0,.35),
+                inset 0 1px 0 rgba(255,255,255,.5);
         }
         .push-btn .btn-label { font-weight: 700; letter-spacing: 0.04em; }
         .push-btn .key { font-size: 0.44rem; opacity: 0.5; margin-top: 1px; }
@@ -650,46 +650,40 @@
         @keyframes idle-spin-glow {
             0%, 40%, 100% {
                 box-shadow:
-                    0 7px 0 #4a0000, 0 10px 22px rgba(0,0,0,.7),
-                    inset 0 3px 7px rgba(255,180,180,.45), inset 0 -3px 5px rgba(0,0,0,.4),
-                    0 0 0 3px #6a0000, 0 0 0 5px rgba(0,0,0,.55);
+                    0 5px 0 #660000, 0 8px 18px rgba(0,0,0,.55),
+                    inset 0 1px 0 rgba(255,140,140,.2);
             }
             20% {
                 box-shadow:
-                    0 7px 0 #4a0000, 0 10px 22px rgba(0,0,0,.7),
-                    inset 0 3px 7px rgba(255,180,180,.45), inset 0 -3px 5px rgba(0,0,0,.4),
-                    0 0 0 3px #6a0000, 0 0 0 5px rgba(0,0,0,.55),
-                    0 0 30px 12px rgba(255,50,50,.85), 0 0 60px 22px rgba(255,0,0,.35);
+                    0 5px 0 #660000, 0 8px 18px rgba(0,0,0,.55),
+                    inset 0 1px 0 rgba(255,140,140,.2),
+                    0 0 28px 10px rgba(255,40,40,.85), 0 0 56px 20px rgba(255,0,0,.3);
             }
         }
         @keyframes idle-bet-glow {
             0%, 55%, 100% {
                 box-shadow:
-                    0 6px 0 #3a2800, 0 9px 18px rgba(0,0,0,.6),
-                    inset 0 3px 5px rgba(255,235,100,.5), inset 0 -3px 4px rgba(0,0,0,.35),
-                    0 0 0 2px #5a4000, 0 0 0 4px rgba(0,0,0,.5);
+                    0 5px 0 #5a3e00, 0 7px 14px rgba(0,0,0,.45),
+                    inset 0 1px 0 rgba(255,220,80,.2);
             }
             75% {
                 box-shadow:
-                    0 6px 0 #3a2800, 0 9px 18px rgba(0,0,0,.6),
-                    inset 0 3px 5px rgba(255,235,100,.5), inset 0 -3px 4px rgba(0,0,0,.35),
-                    0 0 0 2px #5a4000, 0 0 0 4px rgba(0,0,0,.5),
-                    0 0 24px 8px rgba(255,210,0,.9), 0 0 48px 16px rgba(255,150,0,.4);
+                    0 5px 0 #5a3e00, 0 7px 14px rgba(0,0,0,.45),
+                    inset 0 1px 0 rgba(255,220,80,.2),
+                    0 0 22px 8px rgba(255,200,0,.9), 0 0 44px 14px rgba(255,150,0,.35);
             }
         }
         @keyframes idle-white-glow {
             0%, 80%, 100% {
                 box-shadow:
-                    0 6px 0 #888, 0 9px 18px rgba(0,0,0,.5),
-                    inset 0 2px 5px rgba(255,255,255,.9), inset 0 -2px 4px rgba(0,0,0,.15),
-                    0 0 0 2px #aaa, 0 0 0 4px rgba(0,0,0,.45);
+                    0 5px 0 #666, 0 7px 14px rgba(0,0,0,.4),
+                    inset 0 1px 0 rgba(255,255,255,.6);
             }
             90% {
                 box-shadow:
-                    0 6px 0 #888, 0 9px 18px rgba(0,0,0,.5),
-                    inset 0 2px 5px rgba(255,255,255,.9), inset 0 -2px 4px rgba(0,0,0,.15),
-                    0 0 0 2px #aaa, 0 0 0 4px rgba(0,0,0,.45),
-                    0 0 20px 7px rgba(255,255,255,.85), 0 0 40px 14px rgba(180,180,255,.4);
+                    0 5px 0 #666, 0 7px 14px rgba(0,0,0,.4),
+                    inset 0 1px 0 rgba(255,255,255,.6),
+                    0 0 18px 6px rgba(255,255,255,.8), 0 0 36px 12px rgba(180,180,255,.35);
             }
         }
         .push-btn-spin.idle-anim   { animation: idle-spin-glow  3s ease-in-out infinite; }
@@ -850,19 +844,19 @@
         /* ─── Mobile tweaks ────────────────────────── */
         @media (max-width: 400px) {
             :root { --sym-h: 66px; }
-            .machine-title { font-size: 1.35rem; }
-            .brand-name { font-size: 1.3rem; }
-            .ctrl-btn { font-size: 0.74rem; padding: 8px 2px; }
-            .ctrl-btn .key { display: none; }
+            #result-header { font-size: 1.1rem; }
+            .push-btn-spin { width: 60px; height: 60px; font-size: 0.88rem; }
+            .push-btn-yellow, .push-btn-white, .push-btn-gray { width: 44px; height: 44px; font-size: 0.62rem; }
+            .push-btn .key { display: none; }
+            .controls { gap: 10px; }
+            .btn-group-center, .btn-group-right { gap: 8px; }
         }
         @media (max-width: 320px) {
             :root { --sym-h: 58px; }
             .reel-section { padding: 10px 15% 10px 15%; gap: 5px; }
             .lever-shaft { width: 8px; }
             .lever-ball { width: 26px; height: 26px; }
-            .machine-title { font-size: 1.1rem; letter-spacing: 0.15em; }
-            .machine-subtitle { font-size: 0.46rem; }
-            .brand-name { font-size: 1.1rem; letter-spacing: 0.2em; }
+            #result-header { font-size: 0.95rem; letter-spacing: 0.1em; }
         }
         @media (min-width: 560px) {
             :root { --sym-h: 90px; }
@@ -877,21 +871,11 @@
 <div class="machine">
     <div class="trim-top"></div>
 
-    <!-- Header — paytable -->
+    <!-- Header — result display -->
     <div class="machine-header">
-        <div class="paytable-panel">
-            <div class="ptp-title">★ 당첨 배당표 ★</div>
-            <div class="ptp-grid">
-                <div class="ptp-row"><span class="ptp-sym">🍒&thinsp;──</span><span class="ptp-mult">×2</span></div>
-                <div class="ptp-row"><span class="ptp-sym">🔔🔔🔔</span><span class="ptp-mult">×10</span></div>
-                <div class="ptp-row"><span class="ptp-sym">🍇🍇🍇</span><span class="ptp-mult">×40</span></div>
-                <div class="ptp-row"><span class="ptp-sym">🍒🍒&thinsp;─</span><span class="ptp-mult">×5</span></div>
-                <div class="ptp-row"><span class="ptp-sym"><span class="ptp-bar">BAR</span>&thinsp;×3</span><span class="ptp-mult">×20</span></div>
-                <div class="ptp-row"><span class="ptp-sym">🍑🍑🍑</span><span class="ptp-mult">×60</span></div>
-                <div class="ptp-row"><span class="ptp-sym">🍒🍒🍒</span><span class="ptp-mult">×10</span></div>
-                <div class="ptp-row ptp-jackpot"><span class="ptp-sym">7️⃣7️⃣7️⃣</span><span class="ptp-mult">×30</span></div>
-                <div class="ptp-row ptp-jackpot"><span class="ptp-sym">🍊🍊🍊</span><span class="ptp-mult">×100</span></div>
-            </div>
+        <div class="result-display">
+            <div id="result-header">SHUU'S VEGAS</div>
+            <div class="result-display-sub" id="result-sub">★ CLASSIC SLOT MACHINE ★</div>
         </div>
     </div>
 
@@ -938,12 +922,16 @@
             </div>
         </div>
 
-        <!-- Result message -->
-        <div id="result-msg"></div>
-
         <!-- Buttons -->
         <div class="controls">
-            <div class="btn-group-left">
+            <div class="btn-wrap">
+                <button class="push-btn push-btn-spin" id="btn-spin">
+                    <span class="btn-label">SPIN</span>
+                    <span class="key">W</span>
+                </button>
+                <span class="btn-wrap-label">스핀</span>
+            </div>
+            <div class="btn-group-center">
                 <div class="btn-wrap">
                     <button class="push-btn push-btn-yellow" id="btn-bet-dn">
                         <span class="btn-label">BET▼</span>
@@ -966,13 +954,6 @@
                     <span class="btn-wrap-label">맥스</span>
                 </div>
             </div>
-            <div class="btn-wrap">
-                <button class="push-btn push-btn-spin" id="btn-spin">
-                    <span class="btn-label">SPIN</span>
-                    <span class="key">W</span>
-                </button>
-                <span class="btn-wrap-label">스핀</span>
-            </div>
             <div class="btn-group-right">
                 <div class="btn-wrap">
                     <button class="push-btn push-btn-white" id="btn-pay">
@@ -980,6 +961,12 @@
                         <span class="key">F</span>
                     </button>
                     <span class="btn-wrap-label">배당표</span>
+                </div>
+                <div class="btn-wrap">
+                    <button class="push-btn push-btn-gray" id="btn-reset">
+                        <span class="btn-label">리셋</span>
+                    </button>
+                    <span class="btn-wrap-label">리셋</span>
                 </div>
             </div>
         </div>
@@ -1401,7 +1388,7 @@ async function doSpin(skipLeverAnim = false) {
     if (spinning) return;
     const bet = getBet();
     if (chips < bet) {
-        showMsg('칩이 부족합니다! 베팅을 줄이세요.');
+        showMsg('칩 부족!  베팅을 줄이세요.', 'lose');
         return;
     }
 
@@ -1409,7 +1396,7 @@ async function doSpin(skipLeverAnim = false) {
     spinning = true;
     setButtons(false);
     setHighlight([]);
-    showMsg('');
+    showMsg('SPINNING...', 'spin');
 
     chips -= bet;
     updateDisplays();
@@ -1438,10 +1425,10 @@ async function doSpin(skipLeverAnim = false) {
         chips  += win;
         earned += win - bet; // net gain
         setHighlight(hl);
-        showMsg(msg + '  (+ ' + win.toLocaleString() + ' 칩)');
+        showMsg(msg + '  ＋' + win.toLocaleString() + '칩', 'win');
         playWinAnim();
     } else {
-        showMsg('꽝! 다시 도전하세요.');
+        showMsg('꽝!  다시 도전하세요.', 'lose');
         startIdleAnim();
     }
 
@@ -1475,14 +1462,33 @@ function playWinAnim() {
 // ════════════════════════════════════════════
 //   UI HELPERS
 // ════════════════════════════════════════════
-function showMsg(txt) {
-    document.getElementById('result-msg').textContent = txt;
+function showMsg(txt, type) {
+    const el  = document.getElementById('result-header');
+    const sub = document.getElementById('result-sub');
+    el.className = type ? 'state-' + type : '';
+    if (txt) {
+        el.textContent = txt;
+        sub.style.visibility = 'hidden';
+    } else {
+        el.textContent = "SHUU'S VEGAS";
+        sub.style.visibility = '';
+    }
 }
 function setButtons(enabled) {
-    ['btn-spin','btn-bet-up','btn-bet-dn','btn-max','btn-pay'].forEach(id => {
+    ['btn-spin','btn-bet-up','btn-bet-dn','btn-max','btn-pay','btn-reset'].forEach(id => {
         document.getElementById(id).disabled = !enabled;
     });
     document.getElementById('lever').style.pointerEvents = enabled ? '' : 'none';
+}
+function resetGame() {
+    if (spinning) return;
+    chips   = INIT_CHIPS;
+    earned  = 0;
+    betIdx  = 3;
+    setHighlight([]);
+    updateDisplays();
+    showMsg('');
+    startIdleAnim();
 }
 function changeBet(dir) {
     if (spinning) return;
@@ -1508,6 +1514,7 @@ document.getElementById('btn-max').addEventListener('click', setMaxBet);
 document.getElementById('btn-pay').addEventListener('click', () => {
     document.getElementById('paytable-overlay').classList.add('open');
 });
+document.getElementById('btn-reset').addEventListener('click', resetGame);
 document.getElementById('btn-pay-close').addEventListener('click', () => {
     document.getElementById('paytable-overlay').classList.remove('open');
 });
