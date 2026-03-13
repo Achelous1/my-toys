@@ -320,14 +320,18 @@
         .reels-inner {
             display: flex;
             height: calc(var(--sym-h) * 3);
+            gap: 6px;
+            perspective: 600px;
         }
         .reel-col {
             flex: 1;
             overflow: hidden;
             position: relative;
-            border-right: 1px solid #d8d4cc;
+            border-radius: 3px;
+            transform: rotateX(6deg);
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 12px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.3);
         }
-        .reel-col:last-child { border-right: none; }
         .reel-strip {
             display: flex;
             flex-direction: column;
@@ -1418,16 +1422,18 @@ async function doSpin(skipLeverAnim = false) {
     // Stop reels left → right with delay
     await sleep(1400);
     await stopReel(0, results[0]);
-    hapticReelStop();           // 첫 번째 릴 쿵
+    hapticReelStop();                       // 첫 번째 릴 딸깍
+    hapticSpinRumbleSetLevel(0.65);         // 룰 강도 낮춤
 
     await sleep(500);
     await stopReel(1, results[1]);
-    hapticReelStop();           // 두 번째 릴 쿵
+    hapticReelStop();                       // 두 번째 릴 딸깍
+    hapticSpinRumbleSetLevel(0.3);          // 룰 강도 더 낮춤
 
     await sleep(500);
     await stopReel(2, results[2]);
-    hapticSpinRumbleStop();     // 룰 종료
-    hapticReelStop();           // 세 번째 릴 쿵
+    hapticSpinRumbleStop();                 // 룰 종료
+    hapticReelStop();                       // 세 번째 릴 딸깍
 
     // Evaluate
     const { mult, msg, hl } = evaluate(results);
@@ -1488,16 +1494,25 @@ function hapticLeverSnap() { vib([50, 20, 30]); }
 // Lever release without triggering spin (살짝 릴리즈)
 function hapticLeverRelease() { vib(20); }
 
-// Spin rumble — continuous while reels spin (드르르륵)
+// Spin rumble — intensity 0.0~1.0, decreases as reels stop
 let _spinRumbleTimer = null;
+let _spinRumbleLevel = 1.0;
 function hapticSpinRumbleStart() {
     if (!HAS_VIB) return;
+    _spinRumbleLevel = 1.0;
     clearTimeout(_spinRumbleTimer);
     function rumble() {
-        navigator.vibrate([9, 7]);
-        _spinRumbleTimer = setTimeout(rumble, 16);
+        // Full (1.0): on=20ms off=4ms → 24ms cycle (강한 룰)
+        // Low  (0.3): on=8ms  off=10ms → 18ms cycle (잔잔)
+        const onMs  = Math.round(8  + _spinRumbleLevel * 12);
+        const offMs = Math.round(14 - _spinRumbleLevel * 10);
+        navigator.vibrate([onMs, offMs]);
+        _spinRumbleTimer = setTimeout(rumble, onMs + offMs + 1);
     }
     rumble();
+}
+function hapticSpinRumbleSetLevel(level) {
+    _spinRumbleLevel = Math.max(0, Math.min(1, level));
 }
 function hapticSpinRumbleStop() {
     clearTimeout(_spinRumbleTimer);
@@ -1505,8 +1520,8 @@ function hapticSpinRumbleStop() {
     if (HAS_VIB) navigator.vibrate(0);
 }
 
-// Reel stop thud (쿵)
-function hapticReelStop() { vib([40, 15, 22]); }
+// Reel stop click — 딸깍 (short sharp double-tap)
+function hapticReelStop() { vib([18, 12, 10]); }
 
 // Win celebration — intensity scales with multiplier
 function hapticWin(mult) {
