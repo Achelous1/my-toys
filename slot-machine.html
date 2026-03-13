@@ -4,718 +4,1665 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>슬롯머신 - My Toys</title>
-    <meta name="description" content="화려한 애니메이션의 온라인 슬롯머신 게임. 레버를 당겨 3개의 릴을 돌리고 잭팟을 노려보세요! 모바일과 PC 모두 지원합니다.">
-    <meta name="keywords" content="슬롯머신, 슬롯 게임, 온라인 슬롯, 잭팟, 카지노 게임, 무료 슬롯머신">
+    <meta name="description" content="Fallout 스타일의 레트로 슬롯머신 게임. 체리, 7, BAR, 벨, 과일 심볼로 잭팟을 노려보세요!">
+    <meta name="keywords" content="슬롯머신, 슬롯게임, 온라인슬롯, 카지노게임, 레트로게임">
     <meta name="robots" content="index, follow">
     <meta name="author" content="My Toys">
     <meta property="og:type" content="website">
     <meta property="og:title" content="슬롯머신 - My Toys">
-    <meta property="og:description" content="화려한 애니메이션의 온라인 슬롯머신 게임. 레버를 당겨 잭팟을 노려보세요!">
+    <meta property="og:description" content="Fallout 스타일의 레트로 슬롯머신 게임">
     <meta property="og:locale" content="ko_KR">
     <meta property="og:site_name" content="My Toys">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="슬롯머신 - My Toys">
-    <meta name="twitter:description" content="화려한 애니메이션의 온라인 슬롯머신 게임. 레버를 당겨 잭팟을 노려보세요!">
-    <!-- Google AdSense -->
-    <meta name="google-adsense-account" content="ca-pub-4857107637953203">
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4857107637953203"
-         crossorigin="anonymous"></script>
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "슬롯머신",
-      "description": "화려한 애니메이션의 온라인 슬롯머신 게임. 레버를 당겨 잭팟을 노려보세요!",
-      "applicationCategory": "GameApplication",
-      "operatingSystem": "Web",
-      "inLanguage": "ko",
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
-    }
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="twitter:description" content="Fallout 스타일의 레트로 슬롯머신 게임">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&display=swap');
-
         :root {
-            --gold: #FFD700;
-            --gold-dark: #B8860B;
-            --reel-h: 240px;
-            --symbol-h: 80px;
+            --sym-h: 80px;
+            --chrome-hi: #f4f4f4;
+            --chrome-mid: #c8c8c8;
+            --chrome-lo: #909090;
+            --gold-hi: #f8e060;
+            --gold-mid: #c8980c;
+            --gold-lo: #7a5a00;
+            --panel-bg: #0c0c0c;
         }
-
-        * { box-sizing: border-box; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background: radial-gradient(ellipse at top, #1a0a2e 0%, #16213e 50%, #0f0c29 100%);
+            background:
+                radial-gradient(ellipse at 50% 0%, #484848 0%, #282828 40%, #101010 100%);
             min-height: 100vh;
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        /* ── 머신 바디 ── */
-        .machine-body {
-            background: linear-gradient(145deg, #2d1b69 0%, #11998e 100%);
-            border: 3px solid var(--gold);
-            box-shadow:
-                0 0 30px rgba(255,215,0,0.4),
-                0 0 60px rgba(255,215,0,0.2),
-                inset 0 2px 0 rgba(255,255,255,0.1);
-            border-radius: 24px;
-        }
-
-        /* ── 조명 바 ── */
-        .light-bar {
             display: flex;
+            align-items: center;
             justify-content: center;
+            font-family: 'Oswald', sans-serif;
+            color: #222;
+            padding: 16px;
+        }
+
+        /* ─── Machine body — ribbed chrome ───────── */
+        .machine {
+            width: 100%;
+            max-width: 520px;
+            /* Layered: horizontal ribs over chrome gradient */
+            background-color: #c0c0c0;
+            background-image:
+                repeating-linear-gradient(
+                    180deg,
+                    transparent           0px,
+                    rgba(255,255,255,.13) 1px,
+                    rgba(0,0,0,.09)       2.5px,
+                    transparent           4px
+                ),
+                linear-gradient(170deg,
+                    #ffffff 0%,
+                    #ebebeb 7%,
+                    #d0d0d0 18%,
+                    #b4b4b4 36%,
+                    #cccccc 52%,
+                    #b8b8b8 68%,
+                    #a0a0a0 84%,
+                    #b0b0b0 100%);
+            border: 2px solid #686868;
+            border-radius: 10px 10px 6px 6px;
+            box-shadow:
+                inset 6px 0 14px rgba(255,255,255,.75),
+                inset -6px 0 14px rgba(0,0,0,.28),
+                inset 0 5px 10px rgba(255,255,255,.55),
+                0 0 0 1px rgba(0,0,0,.4),
+                0 14px 60px rgba(0,0,0,.9),
+                0 30px 100px rgba(0,0,0,.5);
+            position: relative;
+            overflow: visible;
+        }
+
+        /* ─── Gold trim bands ──────────────────────── */
+        .trim-top, .trim-bot {
+            height: 10px;
+            background-image:
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.18) 0px,
+                    rgba(255,255,255,.06) 2px,
+                    rgba(0,0,0,.12) 4px,
+                    transparent 6px
+                ),
+                linear-gradient(180deg,
+                    #fff8b0 0%,
+                    #f0d050 18%,
+                    #c89010 42%,
+                    #e8c028 62%,
+                    #a07010 82%,
+                    #c8a020 100%);
+            border-top: 1px solid rgba(255,255,255,.65);
+            border-bottom: 1px solid rgba(0,0,0,.35);
+        }
+        .trim-top { border-radius: 9px 9px 0 0; }
+        .trim-bot { border-radius: 0 0 5px 5px; }
+
+        /* ─── Header — protrudes forward ──────────── */
+        .machine-header {
+            padding: 12px 20px 10px;
+            text-align: center;
+            background: linear-gradient(180deg, #1e1e1e 0%, #0a0a0a 100%);
+            border-bottom: 5px solid var(--gold-mid);
+            position: relative;
+            z-index: 4;
+            /* Cast shadow down onto reel section — protrusion effect */
+            box-shadow:
+                0 10px 32px rgba(0,0,0,.98),
+                0 4px 12px rgba(0,0,0,.75),
+                inset 0 1px 0 rgba(255,255,255,.08);
+            /* Chrome rib strip along bottom edge */
+        }
+        .machine-header::after {
+            content: '';
+            position: absolute;
+            bottom: -9px; left: 0; right: 0;
+            height: 5px;
+            background-image:
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.4) 0px,
+                    rgba(255,255,255,.1) 2px,
+                    rgba(0,0,0,.2) 4px,
+                    transparent 6px
+                ),
+                linear-gradient(180deg, #d8d4c0, #a09070);
+            z-index: 5;
+        }
+        /* ─── Result display in header ───────────────── */
+        .result-display {
+            padding: 10px 16px 8px;
+            text-align: center;
+            min-height: 58px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #result-header {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1.45rem;
+            letter-spacing: 0.18em;
+            color: var(--gold-hi);
+            text-shadow: 0 0 18px rgba(248,224,96,.75), 0 2px 0 #000;
+            text-transform: uppercase;
+            transition: color 0.25s, text-shadow 0.25s;
+        }
+        #result-header.state-win {
+            color: #ffff55;
+            text-shadow: 0 0 26px rgba(255,255,0,.9), 0 2px 0 #000;
+            animation: header-win-pulse 0.4s ease-in-out 4;
+        }
+        #result-header.state-lose {
+            color: #888;
+            text-shadow: 0 1px 0 #000;
+            font-size: 1.1rem;
+            letter-spacing: 0.1em;
+        }
+        #result-header.state-spin {
+            color: #88ccff;
+            text-shadow: 0 0 14px rgba(100,190,255,.8), 0 2px 0 #000;
+            letter-spacing: 0.28em;
+        }
+        @keyframes header-win-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+        .result-display-sub {
+            font-size: 0.56rem;
+            letter-spacing: 0.38em;
+            color: #5a5a5a;
+            margin-top: 3px;
+            text-transform: uppercase;
+        }
+
+        /* ─── Reel section — recessed panel + chrome sides ── */
+        .reel-section {
+            display: flex;
+            align-items: stretch;
+            padding: 16px 20% 16px 20%;
             gap: 8px;
-            padding: 10px 16px;
+            position: relative;
+            z-index: 2;
+            background: #050505;
+            border-top: 3px solid #806808;
+            border-bottom: 3px solid #806808;
+            /* Shadow from overhanging header */
+            box-shadow: inset 0 8px 24px rgba(0,0,0,.95), inset 0 -6px 16px rgba(0,0,0,.7);
+            overflow: visible;
         }
 
-        .bulb {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            border: 2px solid rgba(255,255,255,0.3);
-            background: #555;
+        /* Convex-top → concave-mid chrome side columns */
+        .reel-section::before,
+        .reel-section::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 20%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        .reel-section::before {
+            left: 0;
+            background-image:
+                /* Convex highlight upper / concave shadow lower */
+                radial-gradient(ellipse 220% 48% at 60% 28%, rgba(255,255,255,.42) 0%, transparent 55%),
+                radial-gradient(ellipse 220% 44% at 40% 68%, rgba(0,0,0,.60) 0%, transparent 52%),
+                /* Horizontal ribs */
+                repeating-linear-gradient(
+                    180deg,
+                    rgba(255,255,255,.10) 0px,
+                    rgba(255,255,255,.04) 1px,
+                    rgba(0,0,0,.08) 2.5px,
+                    transparent 4px
+                ),
+                /* Base S-curve chrome tone */
+                linear-gradient(180deg,
+                    #e0ddd8 0%, #eeebe6 12%, #c8c5c0 28%,
+                    #787470 46%, #646060 56%,
+                    #808078 68%, #989490 82%, #aeaaa6 100%);
+            box-shadow: inset -3px 0 10px rgba(0,0,0,.55), inset 1px 0 5px rgba(255,255,255,.25);
+        }
+        .reel-section::after {
+            right: 0;
+            background-image:
+                radial-gradient(ellipse 220% 48% at 40% 28%, rgba(255,255,255,.34) 0%, transparent 55%),
+                radial-gradient(ellipse 220% 44% at 60% 68%, rgba(0,0,0,.55) 0%, transparent 52%),
+                repeating-linear-gradient(
+                    180deg,
+                    rgba(255,255,255,.08) 0px,
+                    rgba(255,255,255,.03) 1px,
+                    rgba(0,0,0,.08) 2.5px,
+                    transparent 4px
+                ),
+                linear-gradient(180deg,
+                    #d4d1cc 0%, #e2dfd8 12%, #bcb9b4 28%,
+                    #6c6864 46%, #585450 56%,
+                    #74706c 68%, #8c8884 82%, #a0a09c 100%);
+            box-shadow: inset 3px 0 10px rgba(0,0,0,.55), inset -1px 0 5px rgba(255,255,255,.18);
         }
 
-        /* ── 릴 윈도우 ── */
-        .reels-window {
-            background: #0d0d0d;
-            border: 3px solid var(--gold-dark);
-            border-radius: 12px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 15px rgba(255,215,0,0.3);
-            overflow: hidden;
+        /* ─── Reels container ──────────────────────── */
+        .reels-wrap {
+            flex: 1;
             position: relative;
         }
-
-        .reels-window::before,
-        .reels-window::after {
+        .reel-frame {
+            background: #f5f0e8;
+            /* Thick beveled chrome border — like the real machine bezel */
+            border-style: solid;
+            border-width: 8px;
+            border-color: #e8e8e8 #787878 #606060 #d0d0d0;
+            border-radius: 3px;
+            overflow: hidden;
+            position: relative;
+            z-index: 2;
+            box-shadow:
+                /* Deep recess shadow */
+                inset 0 6px 18px rgba(0,0,0,.65),
+                inset 0 -4px 12px rgba(0,0,0,.45),
+                inset 4px 0 10px rgba(0,0,0,.3),
+                inset -4px 0 10px rgba(0,0,0,.3),
+                /* Outer chrome edge glow */
+                0 0 0 1px rgba(255,255,255,.2),
+                0 6px 20px rgba(0,0,0,.9);
+        }
+        .reel-frame::before,
+        .reel-frame::after {
             content: '';
             position: absolute;
             left: 0; right: 0;
-            height: 50px;
+            height: 34px;
             z-index: 10;
             pointer-events: none;
         }
-        .reels-window::before {
+        .reel-frame::before {
             top: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+            background: linear-gradient(to bottom, rgba(0,0,0,.6) 0%, transparent 100%);
         }
-        .reels-window::after {
+        .reel-frame::after {
             bottom: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            background: linear-gradient(to top, rgba(0,0,0,.6) 0%, transparent 100%);
         }
 
-        /* ── 당첨선 ── */
+        /* Payline — red center line */
         .payline {
             position: absolute;
+            left: -8px; right: -8px;
             top: 50%;
-            left: -4px; right: -4px;
-            height: 3px;
             transform: translateY(-50%);
+            height: 4px;
+            background: rgba(210,20,20,.75);
+            box-shadow: 0 0 8px rgba(220,30,30,.5);
             z-index: 20;
-            background: rgba(255,215,0,0.6);
+            pointer-events: none;
             border-radius: 2px;
-            box-shadow: 0 0 8px rgba(255,215,0,0.8);
         }
+        .payline::before, .payline::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.68rem;
+            color: rgba(220,30,30,.9);
+        }
+        .payline::before { left: -15px; }
+        .payline::after  { right: -15px; transform: translateY(-50%) scaleX(-1); }
 
-        /* ── 릴 ── */
-        .reel-wrapper {
-            width: 80px;
-            height: var(--reel-h);
+        /* ─── Reel inner ───────────────────────────── */
+        .reels-inner {
+            display: flex;
+            height: calc(var(--sym-h) * 3);
+            gap: 6px;
+            perspective: 600px;
+        }
+        .reel-col {
+            flex: 1;
             overflow: hidden;
             position: relative;
-            flex-shrink: 0;
+            border-radius: 3px;
+            transform: rotateX(6deg);
+            transform-style: preserve-3d;
+            box-shadow: 0 4px 12px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.3);
         }
-
-        @media (min-width: 480px) {
-            .reel-wrapper { width: 100px; }
-        }
-        @media (min-width: 640px) {
-            .reel-wrapper { width: 120px; }
-            :root { --reel-h: 270px; --symbol-h: 90px; }
-        }
-
         .reel-strip {
             display: flex;
             flex-direction: column;
             will-change: transform;
         }
 
-        .symbol-cell {
-            width: 100%;
-            height: var(--symbol-h);
+        /* Symbol cell */
+        .sym-cell {
+            height: var(--sym-h);
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2.4rem;
-            line-height: 1;
+            flex-shrink: 0;
+            background: #f8f4ec;
+            border-bottom: 1px solid #e4dece;
             user-select: none;
-            flex-shrink: 0;
+        }
+        .bar-img {
+            width: 74%;
+            height: auto;
+            display: block;
+            pointer-events: none;
+            user-select: none;
         }
 
-        @media (min-width: 640px) {
-            .symbol-cell { font-size: 2.8rem; }
-        }
+        /* Win highlight */
+        .reel-col.win-hl .sym-cell { background: #fffce0; }
 
-        /* ── 레버 ── */
-        .lever-track {
-            width: 20px;
-            background: linear-gradient(to right, #555, #888, #555);
-            border-radius: 10px;
-            position: relative;
-            cursor: pointer;
+        /* ─── Lever — absolutely positioned in right 20% ── */
+        .lever-area {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 20%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 0;
+            cursor: grab;
+            user-select: none;
             touch-action: none;
-            flex-shrink: 0;
+            z-index: 10;  /* above chrome ::after column */
         }
-
+        .lever-area:active { cursor: grabbing; }
+        .lever-shaft {
+            width: 11px;
+            height: 90%;
+            background-image:
+                repeating-linear-gradient(
+                    180deg,
+                    rgba(255,255,255,.22) 0px,
+                    transparent 2px,
+                    rgba(0,0,0,.15) 4px,
+                    transparent 6px
+                ),
+                linear-gradient(90deg,
+                    #383838 0%, #f0f0f0 28%, #ffffff 46%, #e0e0e0 58%, #383838 100%);
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 3px 3px 10px rgba(0,0,0,.8), -1px 0 4px rgba(255,255,255,.3);
+        }
         .lever-ball {
             width: 40px;
             height: 40px;
-            background: radial-gradient(circle at 35% 35%, #ff6b6b, #c0392b);
+            /* Glossy red ball */
+            background: radial-gradient(circle at 34% 28%,
+                #ffaaaa 0%, #ee3030 22%, #cc0000 50%, #880000 78%, #550000 100%);
             border-radius: 50%;
-            border: 3px solid #8b0000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.5), 0 0 15px rgba(255,80,80,0.6);
+            border: 1px solid #660000;
+            box-shadow:
+                0 6px 20px rgba(0,0,0,.95),
+                0 0 12px rgba(200,0,0,.4),
+                inset 4px 4px 9px rgba(255,160,160,.55),
+                inset -3px -3px 7px rgba(0,0,0,.65);
             position: absolute;
             left: 50%;
-            transform: translate(-50%, 0);
-            top: 10px;
-            cursor: pointer;
-            touch-action: none;
+            transform: translateX(-50%);
+            top: 8px;
+        }
+        .lever-base {
+            width: 26px;
+            height: 16px;
+            background-image:
+                repeating-linear-gradient(
+                    90deg,
+                    rgba(255,255,255,.25) 0px,
+                    transparent 2px,
+                    rgba(0,0,0,.12) 4px,
+                    transparent 6px
+                ),
+                linear-gradient(180deg, #c8c8c8, #585858);
+            border-radius: 4px;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 3px 8px rgba(0,0,0,.7);
+            border: 1px solid #282828;
         }
 
-        /* ── 버튼 ── */
-        .spin-btn {
-            background: linear-gradient(135deg, #f7971e, #ffd200);
-            border: 3px solid var(--gold-dark);
-            border-radius: 50px;
-            color: #1a0a0a;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 1rem;
-            letter-spacing: 0.05em;
-            cursor: pointer;
-            box-shadow: 0 6px 20px rgba(255,165,0,0.5), inset 0 1px 0 rgba(255,255,255,0.3);
-            transition: transform 0.1s, box-shadow 0.1s;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .spin-btn:active {
-            transform: scale(0.96) translateY(2px);
-            box-shadow: 0 3px 10px rgba(255,165,0,0.4);
-        }
-        .spin-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
+        /* ─── Footer — flat chrome control shelf ────── */
+        .machine-footer {
+            /* Chrome ribbed panel — flat (not angled) */
+            background-image:
+                repeating-linear-gradient(
+                    180deg,
+                    rgba(255,255,255,.14) 0px,
+                    rgba(255,255,255,.05) 1.5px,
+                    rgba(0,0,0,.10) 3px,
+                    transparent 5px
+                ),
+                linear-gradient(180deg,
+                    #c0bcb8 0%, #d4d0cc 12%, #b8b4b0 30%,
+                    #a8a4a0 60%, #bcb8b4 80%, #c4c0bc 100%);
+            padding: 0 16px 12px;
+            position: relative;
+            z-index: 3;
         }
 
-        /* ── 크레딧 표시 ── */
-        .credit-display {
-            background: #000;
-            border: 2px solid var(--gold-dark);
-            border-radius: 8px;
-            color: #0f0;
-            font-family: monospace;
-            font-size: 1.2rem;
-            letter-spacing: 0.1em;
-            box-shadow: inset 0 0 10px rgba(0,200,0,0.2);
-        }
-
-        /* ── 잭팟 텍스트 ── */
-        .jackpot-text {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: clamp(1.4rem, 5vw, 2rem);
-            background: linear-gradient(90deg, #ff0, #f0f, #0ff, #ff0);
-            background-size: 300%;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        /* ── 결과 메시지 ── */
-        #result-msg {
-            min-height: 2.5rem;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: clamp(0.85rem, 3vw, 1.1rem);
+        /* Grand prize divider */
+        .grand-prize {
             text-align: center;
+            padding: 7px 0 7px;
+            position: relative;
+        }
+        .grand-prize::before, .grand-prize::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,0,0,.35));
+        }
+        .grand-prize::before { left: 2%; }
+        .grand-prize::after  { right: 2%; background: linear-gradient(90deg, rgba(0,0,0,.35), transparent); }
+        .grand-prize span {
+            font-size: 0.65rem;
+            letter-spacing: 0.38em;
+            color: rgba(0,0,0,.5);
+            text-transform: uppercase;
         }
 
-        /* ── 승리 릴 하이라이트 ── */
-        .reel-win {
-            box-shadow: 0 0 20px 5px rgba(255,215,0,0.9) !important;
+        /* LCD display */
+        .lcd-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .lcd-panel {
+            flex: 1;
+            background: #050e05;
+            border: 1px solid #1e3a1e;
+            border-radius: 3px;
+            padding: 7px 10px;
+            font-family: 'Share Tech Mono', monospace;
+            box-shadow: inset 0 0 8px rgba(0,0,0,.5), 0 0 6px rgba(80,160,80,.12);
+        }
+        .lcd-label {
+            font-size: 0.56rem;
+            color: #3a6a3a;
+            letter-spacing: 0.08em;
+            margin-bottom: 1px;
+        }
+        .lcd-value {
+            font-size: 1rem;
+            color: #7cfc00;
+            text-shadow: 0 0 8px rgba(124,252,0,.7);
+            letter-spacing: 0.04em;
+        }
+
+        /* Result message */
+        #result-msg {
+            text-align: center;
+            min-height: 1.6em;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            color: #1a1a1a;
+            text-shadow: 0 1px 0 rgba(255,255,255,.45);
+            margin-bottom: 10px;
+        }
+
+        /* ─── Push Button Controls ─────────────────── */
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 6px 0 8px;
+            flex-wrap: wrap;
+        }
+        .btn-group-center, .btn-group-right {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        .btn-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-wrap-label {
+            font-size: 0.5rem;
+            color: rgba(0,0,0,.42);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            text-shadow: 0 1px 0 rgba(255,255,255,.5);
+        }
+        /* Generic push-button — flat style */
+        .push-btn {
+            border: none;
+            cursor: pointer;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.15;
+            position: relative;
+            transition: transform 0.07s, box-shadow 0.07s;
+            user-select: none;
+            outline: none;
+            padding: 0;
+        }
+        .push-btn:active:not(:disabled) { transform: translateY(4px); }
+        .push-btn:disabled { opacity: .4; cursor: not-allowed; }
+        /* SPIN — large round red flat */
+        .push-btn-spin {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #cc1111;
+            border: 3px solid #880000;
+            color: #fff;
+            font-size: 1rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,.6);
+            box-shadow:
+                0 5px 0 #660000,
+                0 8px 18px rgba(0,0,0,.55),
+                inset 0 1px 0 rgba(255,140,140,.2);
+        }
+        .push-btn-spin:active:not(:disabled) {
+            box-shadow:
+                0 1px 0 #660000,
+                0 3px 8px rgba(0,0,0,.55),
+                inset 0 1px 0 rgba(255,140,140,.2);
+        }
+        /* BET / MAX — round yellow flat */
+        .push-btn-yellow {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #ddaa00;
+            border: 3px solid #886600;
+            color: #3a2000;
+            font-size: 0.68rem;
+            text-shadow: 0 1px 0 rgba(255,220,80,.3);
+            box-shadow:
+                0 5px 0 #5a3e00,
+                0 7px 14px rgba(0,0,0,.45),
+                inset 0 1px 0 rgba(255,220,80,.2);
+        }
+        .push-btn-yellow:active:not(:disabled) {
+            box-shadow:
+                0 1px 0 #5a3e00,
+                0 3px 7px rgba(0,0,0,.45),
+                inset 0 1px 0 rgba(255,220,80,.2);
+        }
+        /* 배당 — white square flat */
+        .push-btn-white {
+            width: 52px;
+            height: 52px;
+            border-radius: 8px;
+            background: #e8e8e8;
+            border: 2px solid #999;
+            color: #333;
+            font-size: 0.68rem;
+            text-shadow: 0 1px 0 rgba(255,255,255,.8);
+            box-shadow:
+                0 5px 0 #666,
+                0 7px 14px rgba(0,0,0,.4),
+                inset 0 1px 0 rgba(255,255,255,.6);
+        }
+        .push-btn-white:active:not(:disabled) {
+            box-shadow:
+                0 1px 0 #666,
+                0 3px 7px rgba(0,0,0,.4),
+                inset 0 1px 0 rgba(255,255,255,.6);
+        }
+        /* 리셋 — gray square flat */
+        .push-btn-gray {
+            width: 52px;
+            height: 52px;
+            border-radius: 8px;
+            background: #b8b8b8;
+            border: 2px solid #808080;
+            color: #333;
+            font-size: 0.68rem;
+            text-shadow: 0 1px 0 rgba(255,255,255,.5);
+            box-shadow:
+                0 5px 0 #555,
+                0 7px 14px rgba(0,0,0,.35),
+                inset 0 1px 0 rgba(255,255,255,.5);
+        }
+        .push-btn-gray:active:not(:disabled) {
+            box-shadow:
+                0 1px 0 #555,
+                0 3px 7px rgba(0,0,0,.35),
+                inset 0 1px 0 rgba(255,255,255,.5);
+        }
+        .push-btn .btn-label { font-weight: 700; letter-spacing: 0.04em; }
+        .push-btn .key { font-size: 0.44rem; opacity: 0.5; margin-top: 1px; }
+
+        /* ─── Idle attract animations ────────────────── */
+        @keyframes idle-spin-glow {
+            0%, 40%, 100% {
+                box-shadow:
+                    0 5px 0 #660000, 0 8px 18px rgba(0,0,0,.55),
+                    inset 0 1px 0 rgba(255,140,140,.2);
+            }
+            20% {
+                box-shadow:
+                    0 5px 0 #660000, 0 8px 18px rgba(0,0,0,.55),
+                    inset 0 1px 0 rgba(255,140,140,.2),
+                    0 0 28px 10px rgba(255,40,40,.85), 0 0 56px 20px rgba(255,0,0,.3);
+            }
+        }
+        @keyframes idle-bet-glow {
+            0%, 55%, 100% {
+                box-shadow:
+                    0 5px 0 #5a3e00, 0 7px 14px rgba(0,0,0,.45),
+                    inset 0 1px 0 rgba(255,220,80,.2);
+            }
+            75% {
+                box-shadow:
+                    0 5px 0 #5a3e00, 0 7px 14px rgba(0,0,0,.45),
+                    inset 0 1px 0 rgba(255,220,80,.2),
+                    0 0 22px 8px rgba(255,200,0,.9), 0 0 44px 14px rgba(255,150,0,.35);
+            }
+        }
+        @keyframes idle-white-glow {
+            0%, 80%, 100% {
+                box-shadow:
+                    0 5px 0 #666, 0 7px 14px rgba(0,0,0,.4),
+                    inset 0 1px 0 rgba(255,255,255,.6);
+            }
+            90% {
+                box-shadow:
+                    0 5px 0 #666, 0 7px 14px rgba(0,0,0,.4),
+                    inset 0 1px 0 rgba(255,255,255,.6),
+                    0 0 18px 6px rgba(255,255,255,.8), 0 0 36px 12px rgba(180,180,255,.35);
+            }
+        }
+        .push-btn-spin.idle-anim   { animation: idle-spin-glow  3s ease-in-out infinite; }
+        .push-btn-yellow.idle-anim { animation: idle-bet-glow   3s ease-in-out infinite; }
+        .push-btn-white.idle-anim  { animation: idle-white-glow 3s ease-in-out infinite; }
+
+        /* ─── Win celebration animation ─────────────── */
+        @keyframes win-flash {
+            0%   { filter: brightness(1)   saturate(1); }
+            14%  { filter: brightness(2.0) saturate(1.6) hue-rotate(0deg); }
+            28%  { filter: brightness(1)   saturate(1)   hue-rotate(60deg); }
+            42%  { filter: brightness(2.0) saturate(1.6) hue-rotate(120deg); }
+            57%  { filter: brightness(1)   saturate(1)   hue-rotate(180deg); }
+            71%  { filter: brightness(2.0) saturate(1.6) hue-rotate(240deg); }
+            85%  { filter: brightness(1)   saturate(1)   hue-rotate(300deg); }
+            100% { filter: brightness(1)   saturate(1)   hue-rotate(360deg); }
+        }
+        .push-btn.win-anim { animation: win-flash 0.45s ease-in-out 5; }
+
+        /* Good luck strip */
+        .good-luck {
+            text-align: center;
+            padding: 6px 0 0;
+            font-size: 0.6rem;
+            letter-spacing: 0.4em;
+            color: rgba(0,0,0,.4);
+            text-shadow: 0 1px 0 rgba(255,255,255,.5);
+        }
+
+        /* ─── Ornate brand panel ────────────────────── */
+        .brand-panel {
+            background: linear-gradient(180deg, #18226a 0%, #0d1848 50%, #1a2870 100%);
+            border-top: 3px solid var(--gold-mid);
+            border-bottom: 3px solid var(--gold-mid);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        .brand-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(200,152,12,.18) 0%, transparent 65%),
+                radial-gradient(ellipse at 50% 100%, rgba(200,152,12,.10) 0%, transparent 55%);
+        }
+        .brand-coin {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 38% 32%,
+                #fff4a0 0%, var(--gold-hi) 35%, var(--gold-mid) 65%, var(--gold-lo) 100%);
+            border: 2px solid #a07808;
+            box-shadow: 0 2px 6px rgba(0,0,0,.5), inset 1px 1px 2px rgba(255,255,255,.5);
+            flex-shrink: 0;
+        }
+        .brand-name {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: clamp(0.85rem, 4.5vw, 1.55rem);
+            letter-spacing: clamp(0.1em, 1vw, 0.28em);
+            color: var(--gold-hi);
+            text-shadow:
+                0 0 22px rgba(248,224,96,.65),
+                2px 2px 4px rgba(0,0,0,.8),
+                0 -1px 0 rgba(255,240,100,.3);
+            text-transform: uppercase;
+            position: relative;
+        }
+        .brand-scroll {
+            font-size: 1.0rem;
+            color: var(--gold-mid);
+            opacity: 0.9;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        /* ─── Paytable Modal ───────────────────────── */
+        #paytable-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.87);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        #paytable-overlay.open { display: flex; }
+        .paytable-box {
+            background: #f0ebe0;
+            border: 3px solid #8b1a1a;
+            border-radius: 6px;
+            padding: 20px;
+            max-width: 340px;
+            width: 100%;
+            color: #222;
+            box-shadow: 0 0 50px rgba(0,0,0,.9);
+        }
+        .paytable-title {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.25em;
+            text-align: center;
+            color: #8b1a1a;
+            margin-bottom: 14px;
+            border-bottom: 1px solid #c8a898;
+            padding-bottom: 8px;
+        }
+        .pt-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 4px;
+            border-bottom: 1px solid #ddd4c4;
+            font-size: 0.85rem;
+        }
+        .pt-row:last-child { border-bottom: none; }
+        .pt-syms { font-size: 1.15rem; letter-spacing: 0.08em; }
+        .pt-mult { font-weight: 700; color: #8b1a1a; font-family: 'Share Tech Mono', monospace; }
+        .pt-bar { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 0.75rem;
+                  background: #333; color: #fff; padding: 1px 5px; border-radius: 2px; border: 1px solid #666; }
+        .paytable-close {
+            margin-top: 14px;
+            width: 100%;
+            background: #8b1a1a;
+            border: none;
+            border-radius: 4px;
+            color: #f5e8d0;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            padding: 9px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Back link */
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.7rem;
+            color: #888;
+            text-decoration: none;
+            letter-spacing: 0.1em;
+        }
+        .back-link:hover { color: #ccc; }
+
+        /* ─── Mobile tweaks ────────────────────────── */
+        @media (max-width: 400px) {
+            :root { --sym-h: 66px; }
+            #result-header { font-size: 1.1rem; }
+            .push-btn-spin { width: 60px; height: 60px; font-size: 0.88rem; }
+            .push-btn-yellow, .push-btn-white, .push-btn-gray { width: 44px; height: 44px; font-size: 0.62rem; }
+            .push-btn .key { display: none; }
+            .controls { gap: 10px; }
+            .btn-group-center, .btn-group-right { gap: 8px; }
+        }
+        @media (max-width: 320px) {
+            :root { --sym-h: 58px; }
+            .reel-section { padding: 10px 15% 10px 15%; gap: 5px; }
+            .lever-shaft { width: 8px; }
+            .lever-ball { width: 26px; height: 26px; }
+            #result-header { font-size: 0.95rem; letter-spacing: 0.1em; }
+        }
+        @media (min-width: 560px) {
+            :root { --sym-h: 90px; }
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center justify-start py-6 px-3">
+<body>
 
-    <div class="w-full max-w-lg">
-        <a href="index.html" class="inline-block mb-4 text-sm text-blue-400 hover:text-blue-200 transition-colors">← 홈으로 돌아가기</a>
+<div style="width:100%;max-width:520px;">
 
-        <!-- 타이틀 -->
-        <div class="text-center mb-4">
-            <div class="jackpot-text mb-1">🎰 SLOT MACHINE</div>
-            <p class="text-gray-400 text-xs">레버를 당기거나 SPIN 버튼을 눌러보세요!</p>
+<!-- ══════════ MACHINE ══════════ -->
+<div class="machine">
+    <div class="trim-top"></div>
+
+    <!-- Header — result display -->
+    <div class="machine-header">
+        <div class="result-display">
+            <div id="result-header">SHUU'S VEGAS</div>
+            <div class="result-display-sub" id="result-sub">★ CLASSIC SLOT MACHINE ★</div>
         </div>
-
-        <!-- 머신 바디 -->
-        <div class="machine-body p-4 sm:p-6">
-
-            <!-- 상단 조명 바 -->
-            <div class="light-bar mb-3" id="top-lights">
-                <div class="bulb" data-idx="0"></div>
-                <div class="bulb" data-idx="1"></div>
-                <div class="bulb" data-idx="2"></div>
-                <div class="bulb" data-idx="3"></div>
-                <div class="bulb" data-idx="4"></div>
-                <div class="bulb" data-idx="5"></div>
-                <div class="bulb" data-idx="6"></div>
-                <div class="bulb" data-idx="7"></div>
-                <div class="bulb" data-idx="8"></div>
-                <div class="bulb" data-idx="9"></div>
-                <div class="bulb" data-idx="10"></div>
-                <div class="bulb" data-idx="11"></div>
-            </div>
-
-            <!-- 릴 + 레버 -->
-            <div class="flex items-center gap-2 sm:gap-4 justify-center mb-4">
-                <!-- 릴 윈도우 -->
-                <div class="reels-window flex gap-1 sm:gap-2 p-2 sm:p-3 flex-1 relative" id="reels-window">
-                    <div class="payline" id="payline"></div>
-                    <div class="reel-wrapper" id="reel-0"><div class="reel-strip" id="strip-0"></div></div>
-                    <div class="reel-wrapper" id="reel-1"><div class="reel-strip" id="strip-1"></div></div>
-                    <div class="reel-wrapper" id="reel-2"><div class="reel-strip" id="strip-2"></div></div>
-                </div>
-
-                <!-- 레버 -->
-                <div class="lever-track" id="lever-track" style="height:200px;">
-                    <div class="lever-ball" id="lever-ball"></div>
-                </div>
-            </div>
-
-            <!-- 하단 조명 바 -->
-            <div class="light-bar mt-1 mb-4" id="bottom-lights">
-                <div class="bulb" data-idx="0"></div>
-                <div class="bulb" data-idx="1"></div>
-                <div class="bulb" data-idx="2"></div>
-                <div class="bulb" data-idx="3"></div>
-                <div class="bulb" data-idx="4"></div>
-                <div class="bulb" data-idx="5"></div>
-                <div class="bulb" data-idx="6"></div>
-                <div class="bulb" data-idx="7"></div>
-                <div class="bulb" data-idx="8"></div>
-                <div class="bulb" data-idx="9"></div>
-                <div class="bulb" data-idx="10"></div>
-                <div class="bulb" data-idx="11"></div>
-            </div>
-
-            <!-- 크레딧 + 결과 -->
-            <div class="flex justify-between items-center mb-4 gap-3">
-                <div class="credit-display px-3 py-2 text-center flex-1">
-                    <div class="text-xs text-gray-500 mb-0.5" style="font-family:monospace;">CREDITS</div>
-                    <div id="credits-val">100</div>
-                </div>
-                <div class="credit-display px-3 py-2 text-center flex-1">
-                    <div class="text-xs text-gray-500 mb-0.5" style="font-family:monospace;">BET</div>
-                    <div id="bet-val">5</div>
-                </div>
-                <div class="credit-display px-3 py-2 text-center flex-1">
-                    <div class="text-xs text-gray-500 mb-0.5" style="font-family:monospace;">WIN</div>
-                    <div id="win-val">0</div>
-                </div>
-            </div>
-
-            <!-- 결과 메시지 -->
-            <div id="result-msg" class="mb-4 text-yellow-300"></div>
-
-            <!-- 버튼들 -->
-            <div class="flex gap-3 justify-center">
-                <button class="spin-btn px-4 py-3 flex-1" id="bet-dec" style="max-width:70px;">-BET</button>
-                <button class="spin-btn px-6 py-3 flex-1 text-lg" id="spin-btn">SPIN ▶</button>
-                <button class="spin-btn px-4 py-3 flex-1" id="bet-inc" style="max-width:70px;">+BET</button>
-            </div>
-
-            <!-- 크레딧 리셋 -->
-            <div class="text-center mt-3">
-                <button id="reset-btn" class="text-xs text-gray-500 hover:text-gray-300 transition-colors underline" style="background:none;border:none;cursor:pointer;font-family:monospace;">
-                    크레딧 충전 (100)
-                </button>
-            </div>
-
-        </div><!-- /machine-body -->
-
-        <!-- 배당표 -->
-        <div class="mt-4 bg-black/40 border border-yellow-800 rounded-xl p-4 text-xs text-gray-300">
-            <div class="text-center text-yellow-400 font-bold mb-2 text-sm" style="font-family:'Orbitron',sans-serif;">PAYTABLE</div>
-            <div class="grid grid-cols-2 gap-x-4 gap-y-1">
-                <div>🍒🍒🍒 — <span class="text-yellow-300">×5</span></div>
-                <div>🍋🍋🍋 — <span class="text-yellow-300">×8</span></div>
-                <div>🍊🍊🍊 — <span class="text-yellow-300">×10</span></div>
-                <div>🍇🍇🍇 — <span class="text-yellow-300">×15</span></div>
-                <div>⭐⭐⭐ — <span class="text-yellow-300">×20</span></div>
-                <div>💎💎💎 — <span class="text-yellow-300">×50</span></div>
-                <div>7️⃣7️⃣7️⃣ — <span class="text-yellow-300 font-bold">×100 🎉</span></div>
-                <div>🍒🍒 (2개) — <span class="text-yellow-300">×2</span></div>
-            </div>
-        </div>
-
-    </div><!-- /max-w-lg -->
-
-    <!-- 푸터 -->
-    <div class="mt-8 text-center text-xs text-gray-600 space-y-1">
-        <p>© 2026 My Toys ·
-            <a href="privacy-policy.html" class="hover:text-gray-400 transition-colors">개인정보처리방침</a>
-        </p>
     </div>
 
+    <!-- Reels Section -->
+    <div class="reel-section">
+        <!-- Reels -->
+        <div class="reels-wrap">
+            <div class="reel-frame">
+                <div class="payline"></div>
+                <div class="reels-inner">
+                    <div class="reel-col" id="reel-0"><div class="reel-strip" id="strip-0"></div></div>
+                    <div class="reel-col" id="reel-1"><div class="reel-strip" id="strip-1"></div></div>
+                    <div class="reel-col" id="reel-2"><div class="reel-strip" id="strip-2"></div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lever (right) -->
+        <div class="lever-area" id="lever" title="레버 당기기" style="margin-left:4px;">
+            <div class="lever-shaft">
+                <div class="lever-ball" id="lever-ball"></div>
+            </div>
+            <div class="lever-base"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="machine-footer">
+        <div class="grand-prize"><span>PLAY MAXIMUM COINS</span></div>
+
+        <!-- LCD displays -->
+        <div class="lcd-row">
+            <div class="lcd-panel">
+                <div class="lcd-label">현재 베팅</div>
+                <div class="lcd-value" id="disp-bet">25</div>
+            </div>
+            <div class="lcd-panel">
+                <div class="lcd-label">칩 갯수</div>
+                <div class="lcd-value" id="disp-chips">10000</div>
+            </div>
+            <div class="lcd-panel">
+                <div class="lcd-label">획득 칩</div>
+                <div class="lcd-value" id="disp-earn">0</div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="controls">
+            <div class="btn-wrap">
+                <button class="push-btn push-btn-spin" id="btn-spin">
+                    <span class="btn-label">SPIN</span>
+                    <span class="key">W</span>
+                </button>
+                <span class="btn-wrap-label">스핀</span>
+            </div>
+            <div class="btn-group-center">
+                <div class="btn-wrap">
+                    <button class="push-btn push-btn-yellow" id="btn-bet-dn">
+                        <span class="btn-label">BET▼</span>
+                        <span class="key">Q</span>
+                    </button>
+                    <span class="btn-wrap-label">베팅 ▼</span>
+                </div>
+                <div class="btn-wrap">
+                    <button class="push-btn push-btn-yellow" id="btn-bet-up">
+                        <span class="btn-label">BET▲</span>
+                        <span class="key">E</span>
+                    </button>
+                    <span class="btn-wrap-label">베팅 ▲</span>
+                </div>
+                <div class="btn-wrap">
+                    <button class="push-btn push-btn-yellow" id="btn-max">
+                        <span class="btn-label">MAX</span>
+                        <span class="key">S</span>
+                    </button>
+                    <span class="btn-wrap-label">맥스</span>
+                </div>
+            </div>
+            <div class="btn-group-right">
+                <div class="btn-wrap">
+                    <button class="push-btn push-btn-white" id="btn-pay">
+                        <span class="btn-label">배당</span>
+                        <span class="key">F</span>
+                    </button>
+                    <span class="btn-wrap-label">배당표</span>
+                </div>
+                <div class="btn-wrap">
+                    <button class="push-btn push-btn-gray" id="btn-reset">
+                        <span class="btn-label">리셋</span>
+                    </button>
+                    <span class="btn-wrap-label">리셋</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="good-luck">◆ &nbsp; GOOD LUCK &nbsp; ◆</div>
+    </div>
+
+    <!-- Ornate brand panel -->
+    <div class="brand-panel">
+        <div class="brand-scroll">❧</div>
+        <div class="brand-coin"></div>
+        <div class="brand-name">SHUU'S VEGAS</div>
+        <div class="brand-coin"></div>
+        <div class="brand-scroll" style="transform:scaleX(-1);">❧</div>
+    </div>
+
+    <div class="trim-bot"></div>
+</div>
+
+<a href="index.html" class="back-link">← My Toys 홈으로</a>
+</div>
+
+<!-- ══════════ PAYTABLE MODAL ══════════ -->
+<div id="paytable-overlay">
+    <div class="paytable-box">
+        <div class="paytable-title">★ 배당 목록 ★</div>
+        <div class="pt-row"><span class="pt-syms">🔔🔔🔔</span><span class="pt-mult">BET × 10</span></div>
+        <div class="pt-row"><span class="pt-syms"><span class="pt-bar">BAR</span>&nbsp;<span class="pt-bar">BAR</span>&nbsp;<span class="pt-bar">BAR</span></span><span class="pt-mult">BET × 20</span></div>
+        <div class="pt-row"><span class="pt-syms">7️⃣7️⃣7️⃣</span><span class="pt-mult">BET × 30</span></div>
+        <div class="pt-row"><span class="pt-syms">🍇🍇🍇</span><span class="pt-mult">BET × 40</span></div>
+        <div class="pt-row"><span class="pt-syms">🍑🍑🍑</span><span class="pt-mult">BET × 60</span></div>
+        <div class="pt-row"><span class="pt-syms">🍊🍊🍊</span><span class="pt-mult">BET × 100</span></div>
+        <div class="pt-row" style="background:#fffbe8"><span class="pt-syms">🍒──</span><span class="pt-mult">BET × 2</span></div>
+        <div class="pt-row" style="background:#fffbe8"><span class="pt-syms">🍒🍒─</span><span class="pt-mult">BET × 5</span></div>
+        <div class="pt-row" style="background:#fffbe8"><span class="pt-syms">🍒🍒🍒</span><span class="pt-mult">BET × 10</span></div>
+        <button class="paytable-close" id="btn-pay-close">닫기</button>
+    </div>
+</div>
+
 <script>
-// ── 심볼 정의 ──────────────────────────────────────────────
-const SYMBOLS = ['🍒','🍋','🍊','🍇','⭐','💎','7️⃣'];
-const WEIGHTS  = [30,  25,  20,  15,  6,   3,   1];   // 가중치 (합=100)
-const PAYOUTS  = { '🍒':5, '🍋':8, '🍊':10, '🍇':15, '⭐':20, '💎':50, '7️⃣':100 };
+// ════════════════════════════════════════════
+//   CONSTANTS
+// ════════════════════════════════════════════
+const SYMBOLS  = ['🔔', 'BAR', '7️⃣', '🍇', '🍑', '🍊', '🍒'];
+// Weights: cherry is most common, orange least
+const WEIGHTS  = [12,   10,    8,    14,   10,   6,    40];
+const STRIP_N  = 24;   // unique symbols per reel
+const SPIN_SPEED = 14; // px per frame during spin (~840px/s at 60fps)
+const BET_STEPS  = [1,5,10,25,50,100,250,500,1000];
+const INIT_CHIPS = 10000;
 
-// 가중 랜덤
+// ════════════════════════════════════════════
+//   STATE
+// ════════════════════════════════════════════
+let chips     = INIT_CHIPS;
+let earned    = 0;
+let betIdx    = 3;  // index into BET_STEPS → 25
+let spinning  = false;
+
+// Lever drag state
+const LEVER_BALL_INIT_TOP  = 8;
+const LEVER_SNAP_THRESHOLD = 0.75; // 75% pull triggers auto-spin
+let leverBallTop          = LEVER_BALL_INIT_TOP;
+let leverDragging         = false;
+let leverDragStartY       = 0;
+let leverDragStartBallTop = LEVER_BALL_INIT_TOP;
+let leverSpringAnim       = null;
+let leverAutoCompleted    = false;
+
+const reels = [
+    { symbols: [], offset: 0, animId: null, isSpinning: false, stopAnim: null },
+    { symbols: [], offset: 0, animId: null, isSpinning: false, stopAnim: null },
+    { symbols: [], offset: 0, animId: null, isSpinning: false, stopAnim: null },
+];
+
+// ════════════════════════════════════════════
+//   HELPERS
+// ════════════════════════════════════════════
+function getBet()    { return BET_STEPS[betIdx]; }
+function symH()      { return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sym-h')) || 80; }
+function sleep(ms)   { return new Promise(r => setTimeout(r, ms)); }
+
 function weightedRandom() {
-    const total = WEIGHTS.reduce((a,b)=>a+b,0);
-    let r = Math.random()*total;
-    for (let i=0;i<SYMBOLS.length;i++) { r -= WEIGHTS[i]; if (r<=0) return SYMBOLS[i]; }
-    return SYMBOLS[0];
+    const total = WEIGHTS.reduce((a,b) => a+b, 0);
+    let r = Math.random() * total;
+    for (let i = 0; i < SYMBOLS.length; i++) {
+        r -= WEIGHTS[i];
+        if (r <= 0) return SYMBOLS[i];
+    }
+    return SYMBOLS[SYMBOLS.length - 1];
 }
 
-// ── 릴 스트립 생성 ─────────────────────────────────────────
-const STRIP_LEN = 40; // 스트립 심볼 수
-const reelData  = [[], [], []]; // 각 릴의 심볼 배열
+function makeCell(sym) {
+    const div = document.createElement('div');
+    div.className = 'sym-cell';
+    if (sym === 'BAR') {
+        const img = document.createElement('img');
+        img.src = 'bar.svg';
+        img.className = 'bar-img';
+        img.alt = 'BAR';
+        img.draggable = false;
+        div.appendChild(img);
+    } else {
+        div.textContent = sym;
+    }
+    return div;
+}
 
-function buildStrips() {
-    for (let r=0; r<3; r++) {
-        const strip = document.getElementById(`strip-${r}`);
-        strip.innerHTML = '';
-        reelData[r] = [];
-        // 넉넉히 심볼 채우기
-        for (let i=0; i<STRIP_LEN; i++) {
-            const s = weightedRandom();
-            reelData[r].push(s);
-            const cell = document.createElement('div');
-            cell.className = 'symbol-cell';
-            cell.textContent = s;
-            strip.appendChild(cell);
-        }
-        // 연속 루프를 위해 앞 3개를 뒤에 복사
-        for (let i=0; i<3; i++) {
-            const cell = document.createElement('div');
-            cell.className = 'symbol-cell';
-            cell.textContent = reelData[r][i];
-            strip.appendChild(cell);
+function updateDisplays() {
+    document.getElementById('disp-bet').textContent   = getBet().toLocaleString();
+    document.getElementById('disp-chips').textContent = chips.toLocaleString();
+    document.getElementById('disp-earn').textContent  = earned.toLocaleString();
+}
+
+// ════════════════════════════════════════════
+//   REEL BUILD
+// ════════════════════════════════════════════
+function buildStrip(ri) {
+    const r     = reels[ri];
+    const strip = document.getElementById('strip-' + ri);
+    strip.innerHTML = '';
+    r.symbols = [];
+
+    // Generate N unique symbols with enough cherries (at least 4)
+    for (let i = 0; i < STRIP_N; i++) r.symbols.push(weightedRandom());
+
+    // Ensure at least 4 cherries in the strip for stopping reliability
+    const cherryCount = r.symbols.filter(s => s === '🍒').length;
+    if (cherryCount < 4) {
+        const needed = 4 - cherryCount;
+        const noncherryIdx = r.symbols
+            .map((s, i) => s !== '🍒' ? i : -1)
+            .filter(i => i >= 0);
+        for (let k = 0; k < needed && k < noncherryIdx.length; k++) {
+            const pick = noncherryIdx[Math.floor(Math.random() * noncherryIdx.length)];
+            r.symbols[pick] = '🍒';
         }
     }
-}
-buildStrips();
 
-// ── 심볼 높이 (CSS 변수에서 가져오기) ───────────────────────
-function getSymbolH() {
-    return parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--symbol-h')) || 80;
-}
+    // Render 3 copies for safe infinite-scroll target range
+    for (let pass = 0; pass < 3; pass++) {
+        for (const sym of r.symbols) strip.appendChild(makeCell(sym));
+    }
 
-// ── 상태 ──────────────────────────────────────────────────
-let credits = 100;
-let bet     = 5;
-let spinning = false;
-let lightAnim = null;
-let bulbAnims = [];
-
-// ── UI 업데이트 ────────────────────────────────────────────
-function updateUI() {
-    document.getElementById('credits-val').textContent = credits;
-    document.getElementById('bet-val').textContent = bet;
-}
-updateUI();
-
-document.getElementById('bet-dec').addEventListener('click', () => {
-    if (!spinning && bet > 1) { bet = Math.max(1, bet-1); updateUI(); }
-});
-document.getElementById('bet-inc').addEventListener('click', () => {
-    if (!spinning && bet < 20 && bet < credits) { bet = Math.min(20, bet+1, credits); updateUI(); }
-});
-document.getElementById('reset-btn').addEventListener('click', () => {
-    if (!spinning) { credits=100; bet=Math.min(bet,credits); updateUI(); setMsg('💰 크레딧 충전!','#0f0'); }
-});
-
-function setMsg(txt, color='#FFD700') {
-    const el = document.getElementById('result-msg');
-    el.textContent = txt;
-    el.style.color = color;
+    r.offset = 0;
+    strip.style.transform = 'translateY(0px)';
 }
 
-// ── 조명 애니메이션 ────────────────────────────────────────
-const BULB_COLORS = ['#ff4444','#ff8800','#ffff00','#44ff44','#00aaff','#aa44ff','#ff44aa'];
-
-function startLights(mode='idle') {
-    stopLights();
-    const topBulbs    = [...document.querySelectorAll('#top-lights .bulb')];
-    const bottomBulbs = [...document.querySelectorAll('#bottom-lights .bulb')];
-    const allBulbs    = [...topBulbs, ...bottomBulbs];
-
-    if (mode === 'idle') {
-        // 순차 켜짐 (앞뒤로)
-        let idx = 0;
-        let dir = 1;
-        lightAnim = setInterval(() => {
-            allBulbs.forEach((b,i) => {
-                const on = (i === idx) || (i === allBulbs.length-1-idx);
-                b.style.background = on ? BULB_COLORS[idx % BULB_COLORS.length] : '#333';
-                b.style.boxShadow  = on ? `0 0 8px 2px ${BULB_COLORS[idx % BULB_COLORS.length]}` : 'none';
-            });
-            idx += dir;
-            if (idx >= topBulbs.length-1 || idx <= 0) dir *= -1;
-        }, 120);
-
-    } else if (mode === 'spin') {
-        // 고속 랜덤 점멸
-        lightAnim = setInterval(() => {
-            allBulbs.forEach(b => {
-                const on = Math.random() > 0.5;
-                const c  = BULB_COLORS[Math.floor(Math.random()*BULB_COLORS.length)];
-                b.style.background = on ? c : '#333';
-                b.style.boxShadow  = on ? `0 0 10px 3px ${c}` : 'none';
-            });
-        }, 80);
-
-    } else if (mode === 'win') {
-        // 전체 동시 점멸
-        let on = true;
-        lightAnim = setInterval(() => {
-            const c = BULB_COLORS[Math.floor(Date.now()/200 % BULB_COLORS.length)];
-            allBulbs.forEach(b => {
-                b.style.background = on ? c : '#333';
-                b.style.boxShadow  = on ? `0 0 12px 4px ${c}` : 'none';
-            });
-            on = !on;
-        }, 150);
+function initReels() {
+    for (let ri = 0; ri < 3; ri++) {
+        buildStrip(ri);
+        // Position to center of strip (showing symbols 1,2,3)
+        const strip = document.getElementById('strip-' + ri);
+        reels[ri].offset = 0;
+        strip.style.transform = 'translateY(0px)';
     }
 }
 
-function stopLights() {
-    if (lightAnim) clearInterval(lightAnim);
-    lightAnim = null;
+// ════════════════════════════════════════════
+//   SPIN LOOP (rAF infinite)
+// ════════════════════════════════════════════
+function startReelSpin(ri) {
+    const r = reels[ri];
+    const H     = symH();
+    const halfH = STRIP_N * H;
+
+    // ── KEY FIX ──────────────────────────────────────────────────────────────
+    // element.animate() with fill:'forwards' stays active in the CSS cascade
+    // at HIGHER priority than inline styles, overriding every rAF transform set.
+    // Cancelling it removes the fill effect so our inline style takes over.
+    if (r.stopAnim) {
+        r.stopAnim.cancel();   // clears fill:'forwards' override
+        r.stopAnim = null;
+    }
+    // ─────────────────────────────────────────────────────────────────────────
+
+    // Normalize offset into (-halfH, 0] — visually seamless (3 identical copies)
+    r.offset = r.offset % halfH;   // JS % keeps sign → result in (-halfH, 0]
+    document.getElementById('strip-' + ri).style.transform =
+        'translateY(' + r.offset + 'px)';
+
+    r.isSpinning = true;
+
+    function tick() {
+        if (!r.isSpinning) return;
+
+        r.offset -= SPIN_SPEED;
+        if (r.offset <= -halfH) r.offset += halfH;   // seamless wrap
+
+        document.getElementById('strip-' + ri).style.transform =
+            'translateY(' + r.offset + 'px)';
+
+        r.animId = requestAnimationFrame(tick);
+    }
+    r.animId = requestAnimationFrame(tick);
 }
 
-startLights('idle');
-
-// ── 레버 애니메이션 ────────────────────────────────────────
-const leverBall  = document.getElementById('lever-ball');
-const leverTrack = document.getElementById('lever-track');
-
-function animateLever() {
+// ════════════════════════════════════════════
+//   STOP REEL
+// ════════════════════════════════════════════
+function stopReel(ri, targetSym) {
     return new Promise(resolve => {
-        const trackH    = leverTrack.offsetHeight;
-        const ballH     = leverBall.offsetHeight;
-        const maxTop    = trackH - ballH - 10;
-        const startTop  = 10;
+        const r     = reels[ri];
+        const H     = symH();
+        const halfH = STRIP_N * H;
 
-        leverBall.animate([
-            { top: startTop + 'px' },
-            { top: maxTop  + 'px', offset: 0.4, easing: 'cubic-bezier(0.25,0.46,0.45,0.94)' },
-            { top: maxTop  + 'px', offset: 0.55 },
-            { top: startTop + 'px', easing: 'cubic-bezier(0.55,0,1,0.45)' }
-        ], { duration: 600, fill: 'none' });
+        // Freeze current position
+        r.isSpinning = false;
+        cancelAnimationFrame(r.animId);
+        const capturedOffset = r.offset;
 
-        setTimeout(resolve, 300); // 당김 완료 시점에 스핀 시작
-    });
-}
+        // Find targetSym positions in strip
+        const candidates = r.symbols
+            .map((s, i) => s === targetSym ? i : -1)
+            .filter(i => i >= 0);
 
-// 레버 클릭/터치
-leverBall.addEventListener('click', () => { if (!spinning) doSpin(); });
-leverTrack.addEventListener('click', () => { if (!spinning) doSpin(); });
-
-// 레버 드래그 지원
-let dragStartY = 0;
-leverBall.addEventListener('pointerdown', e => {
-    dragStartY = e.clientY;
-    e.preventDefault();
-});
-window.addEventListener('pointerup', e => {
-    if (dragStartY && e.clientY - dragStartY > 30 && !spinning) {
-        doSpin();
-    }
-    dragStartY = 0;
-});
-
-// ── 스핀 버튼 ──────────────────────────────────────────────
-document.getElementById('spin-btn').addEventListener('click', () => { if (!spinning) doSpin(); });
-
-// ── 핵심 스핀 로직 ─────────────────────────────────────────
-async function doSpin() {
-    if (spinning || credits < bet) {
-        if (credits < bet) setMsg('💸 크레딧이 부족합니다!', '#f66');
-        return;
-    }
-    spinning = true;
-    credits -= bet;
-    document.getElementById('win-val').textContent = 0;
-    setMsg('');
-    updateUI();
-
-    document.getElementById('spin-btn').disabled = true;
-    document.getElementById('bet-dec').disabled  = true;
-    document.getElementById('bet-inc').disabled  = true;
-
-    // 릴 하이라이트 초기화
-    for (let i=0;i<3;i++) {
-        document.getElementById(`reel-${i}`).style.boxShadow = '';
-    }
-
-    // 레버 당기기
-    await animateLever();
-
-    // 결과 미리 결정
-    const results = [weightedRandom(), weightedRandom(), weightedRandom()];
-    startLights('spin');
-
-    // 각 릴 스핀 시작 (딜레이 없이 동시 시작, 정지만 순차)
-    const stopDelays = [1600, 2200, 2800]; // ms
-    const spinDuration = [2000, 2600, 3200];
-    const symH = getSymbolH();
-
-    const promises = results.map((targetSym, reelIdx) => {
-        return spinReel(reelIdx, targetSym, spinDuration[reelIdx], stopDelays[reelIdx]);
-    });
-
-    await Promise.all(promises);
-
-    // 결과 판정
-    stopLights();
-    evaluateResult(results);
-
-    spinning = false;
-    document.getElementById('spin-btn').disabled = false;
-    document.getElementById('bet-dec').disabled  = false;
-    document.getElementById('bet-inc').disabled  = false;
-    startLights('idle');
-}
-
-// ── 릴 스핀 애니메이션 ─────────────────────────────────────
-// 각 릴이 독립적으로 고속 회전 후 목표 심볼에 멈춤
-function spinReel(reelIdx, targetSym, duration, stopAt) {
-    return new Promise(resolve => {
-        const strip  = document.getElementById(`strip-${reelIdx}`);
-        const symH   = getSymbolH();
-        const total  = STRIP_LEN;
-
-        // 목표 심볼 index 찾기 (랜덤 위치 중 하나)
-        const candidates = [];
-        for (let i=0;i<total;i++) {
-            if (reelData[reelIdx][i] === targetSym) candidates.push(i);
+        // If symbol not found, force-insert it into all 3 copies
+        if (candidates.length === 0) {
+            const fi = Math.floor(Math.random() * STRIP_N);
+            r.symbols[fi] = targetSym;
+            const cells = document.querySelectorAll('#strip-' + ri + ' .sym-cell');
+            const newCell = makeCell(targetSym);
+            for (let copy = 0; copy < 3; copy++) {
+                if (cells[fi + copy * STRIP_N]) {
+                    cells[fi + copy * STRIP_N].innerHTML = newCell.innerHTML;
+                }
+            }
+            candidates.push(fi);
         }
-        // 없으면 강제로 삽입
-        let targetIdx = candidates.length
-            ? candidates[Math.floor(Math.random()*candidates.length)]
-            : Math.floor(Math.random()*total);
 
-        // 목표 Y: targetIdx번째 심볼이 중앙(3번째 행)에 오도록
-        // 릴 윈도우 높이의 중앙 = 1*symH (0-indexed: 0, 1, 2 -> 중앙은 1)
-        const visibleRows = 3;
-        const centerRow   = 1;
-        const targetY = -(targetIdx - centerRow) * symH;
+        const targetIdx = candidates[Math.floor(Math.random() * candidates.length)];
 
-        // 최소 3바퀴 이상 돌도록 추가 오프셋
-        const minExtra = 3 * total * symH;
-        const extraTurns = minExtra + Math.floor(Math.random()*total)*symH;
-        const endY = targetY - extraTurns;
+        // Target Y: when translateY = -(targetIdx - 1) * H, that symbol is centered
+        // (row 0 = top, row 1 = center, row 2 = bottom of the 3-visible window)
+        let targetY = -(targetIdx - 1) * H;
 
-        // Web Animations API 사용
-        // 시작: 현재 위치(0)
-        // 감속 곡선으로 돌다가 targetY에 착지
-        const anim = strip.animate([
-            { transform: 'translateY(0px)', easing: 'cubic-bezier(0.2,0,0.8,1)' },
-            { transform: `translateY(${endY}px)`, easing: 'cubic-bezier(0.25,0.46,0.45,0.94)' },
-        ], {
-            duration: duration,
-            fill: 'forwards',
-            easing: 'ease-in'
-        });
+        // Normalise into [-halfH, 0]
+        while (targetY > 0)      targetY -= halfH;
+        while (targetY <= -halfH) targetY += halfH;
 
-        // 애니메이션 끝나면 CSS transform 확정하고 Promise 해결
+        // Make sure we always scroll forward (more negative) from capturedOffset
+        // and add at least 3 symbol heights of travel
+        const MIN_TRAVEL = 3 * H;
+        while (targetY > capturedOffset - MIN_TRAVEL) targetY -= halfH;
+
+        const strip    = document.getElementById('strip-' + ri);
+        const distance = Math.abs(targetY - capturedOffset);
+        // Duration: ~60 frames per SPIN_SPEED px → duration in ms
+        const duration = Math.max(500, Math.min(1400, distance / SPIN_SPEED * (1000 / 60)));
+
+        const anim = strip.animate(
+            [{ transform: 'translateY(' + capturedOffset + 'px)' },
+             { transform: 'translateY(' + targetY + 'px)' }],
+            { duration, easing: 'cubic-bezier(0.17, 0.67, 0.35, 1.0)', fill: 'forwards' }
+        );
+        r.stopAnim = anim;  // stored so startReelSpin can cancel the fill effect
+
         anim.onfinish = () => {
-            strip.style.transform = `translateY(${endY}px)`;
+            // Set inline style to final position before the next spin cancels the animation
+            strip.style.transform = 'translateY(' + targetY + 'px)';
+            r.offset = targetY;
             resolve();
         };
     });
 }
 
-// ── 결과 판정 ──────────────────────────────────────────────
-function evaluateResult(results) {
+// ════════════════════════════════════════════
+//   EVALUATE RESULT
+// ════════════════════════════════════════════
+function evaluate(results) {
     const [a, b, c] = results;
-    let payout = 0;
-    let msg    = '';
-    let isWin  = false;
+    const bet = getBet();
 
+    // Cherry rules (cascading)
+    if (a === '🍒') {
+        if (b === '🍒' && c === '🍒') {
+            return { mult: 10, msg: '🍒🍒🍒 — BET × 10!', hl: [0,1,2] };
+        }
+        if (b === '🍒') {
+            return { mult: 5, msg: '🍒🍒 — BET × 5!', hl: [0,1] };
+        }
+        return { mult: 2, msg: '🍒 — BET × 2!', hl: [0] };
+    }
+
+    // 3-of-a-kind
     if (a === b && b === c) {
-        // 3개 일치
-        payout = bet * PAYOUTS[a];
-        isWin  = true;
-        if (a === '7️⃣') {
-            msg = `🎉 JACKPOT!!! +${payout}`;
-        } else if (a === '💎') {
-            msg = `💎 다이아몬드! +${payout}`;
-        } else {
-            msg = `🎊 3개 일치! +${payout}`;
-        }
-        // 모든 릴 하이라이트
-        for (let i=0;i<3;i++) highlightReel(i);
-    } else if (a === b || a === c || b === c) {
-        // 2개 일치 (체리만)
-        const pair = a===b ? a : (a===c ? a : b);
-        if (pair === '🍒') {
-            payout = bet * 2;
-            isWin  = true;
-            msg    = `🍒 체리 2개! +${payout}`;
-            // 일치하는 릴만 하이라이트
-            if (a===b) { highlightReel(0); highlightReel(1); }
-            else if (a===c) { highlightReel(0); highlightReel(2); }
-            else { highlightReel(1); highlightReel(2); }
+        const TABLE = { '🔔':10, 'BAR':20, '7️⃣':30, '🍇':40, '🍑':60, '🍊':100 };
+        const mult = TABLE[a];
+        if (mult) {
+            const label = a === 'BAR' ? 'BAR BAR BAR' : a + a + a;
+            return { mult, msg: label + ' — BET × ' + mult + '!', hl: [0,1,2] };
         }
     }
 
-    if (payout > 0) {
-        credits += payout;
-        document.getElementById('win-val').textContent = payout;
-        startLights('win');
-        setTimeout(() => startLights('idle'), 3000);
-    }
+    return { mult: 0, msg: '', hl: [] };
+}
 
-    setMsg(msg || (credits <= 0 ? '💸 게임 오버! 충전하세요.' : '다시 도전!'), isWin ? '#FFD700' : '#aaa');
-    updateUI();
-
-    // 당첨 시 payline 강조
-    if (isWin) {
-        const pl = document.getElementById('payline');
-        pl.animate([
-            { opacity: 1, boxShadow: '0 0 20px 8px #FFD700' },
-            { opacity: 0.2 },
-            { opacity: 1, boxShadow: '0 0 20px 8px #FFD700' },
-            { opacity: 0.2 },
-            { opacity: 1, boxShadow: '0 0 8px 2px rgba(255,215,0,0.6)' },
-        ], { duration: 1500, fill: 'forwards' });
+// ════════════════════════════════════════════
+//   HIGHLIGHT REELS
+// ════════════════════════════════════════════
+function setHighlight(indices) {
+    for (let i = 0; i < 3; i++) {
+        document.getElementById('reel-' + i).classList.toggle('win-hl', indices.includes(i));
     }
 }
 
-function highlightReel(idx) {
-    document.getElementById(`reel-${idx}`).style.boxShadow = '0 0 20px 5px rgba(255,215,0,0.9)';
+// ════════════════════════════════════════════
+//   LEVER HELPERS
+// ════════════════════════════════════════════
+function getLeverRange() {
+    const shaft = document.querySelector('.lever-shaft');
+    const ball  = document.getElementById('lever-ball');
+    const min   = LEVER_BALL_INIT_TOP;
+    const max   = Math.max(min + 20, shaft.clientHeight - ball.offsetHeight - 18);
+    return { min, max };
 }
 
-// ── 리셋 시 스트립 초기화 ──────────────────────────────────
-// 스핀 전마다 스트립을 리빌드하여 무한 루프처럼 보이게
-document.getElementById('spin-btn').addEventListener('mousedown', () => {
-    if (!spinning) {
-        for (let i=0;i<3;i++) {
-            const strip = document.getElementById(`strip-${i}`);
-            strip.style.transform = 'translateY(0px)';
+function setLeverBallTop(top) {
+    leverBallTop = top;
+    document.getElementById('lever-ball').style.top = top + 'px';
+}
+
+function springBackLever(fromTop) {
+    if (leverSpringAnim) { leverSpringAnim.cancel(); leverSpringAnim = null; }
+    const ball   = document.getElementById('lever-ball');
+    const mid1   = Math.max(0, LEVER_BALL_INIT_TOP - 8);  // overshoot up
+    const mid2   = LEVER_BALL_INIT_TOP + 4;               // settle bounce
+    const anim   = ball.animate([
+        { top: fromTop + 'px' },
+        { top: mid1   + 'px', offset: 0.55 },
+        { top: mid2   + 'px', offset: 0.78 },
+        { top: LEVER_BALL_INIT_TOP + 'px' },
+    ], { duration: 420, easing: 'ease-out', fill: 'forwards' });
+    leverSpringAnim = anim;
+    anim.onfinish = () => {
+        setLeverBallTop(LEVER_BALL_INIT_TOP);
+        if (leverSpringAnim === anim) { anim.cancel(); leverSpringAnim = null; }
+    };
+}
+
+// ════════════════════════════════════════════
+//   LEVER ANIMATION (button / keyboard spin)
+// ════════════════════════════════════════════
+async function animateLever() {
+    if (leverSpringAnim) { leverSpringAnim.cancel(); leverSpringAnim = null; }
+    const { max } = getLeverRange();
+    const ball = document.getElementById('lever-ball');
+    hapticLeverSnap();   // 버튼/키보드로 스핀 시 레버 스냅 햅틱
+    // Snap down
+    const snapAnim = ball.animate([
+        { top: leverBallTop + 'px' },
+        { top: max + 'px' },
+    ], { duration: 120, easing: 'ease-in', fill: 'forwards' });
+    await new Promise(r => { snapAnim.onfinish = r; });
+    setLeverBallTop(max);
+    snapAnim.cancel();
+    // Spring back
+    springBackLever(max);
+    await sleep(420);
+}
+
+// ════════════════════════════════════════════
+//   LEVER INTERACTION (drag / touch)
+// ════════════════════════════════════════════
+(function initLeverInteraction() {
+    const leverArea = document.getElementById('lever');
+
+    leverArea.addEventListener('pointerdown', e => {
+        if (spinning) return;
+        if (leverSpringAnim) { leverSpringAnim.cancel(); leverSpringAnim = null; }
+        leverDragging      = true;
+        leverAutoCompleted = false;
+        leverDragStartY    = e.clientY;
+        leverDragStartBallTop = leverBallTop;
+        leverArea.setPointerCapture(e.pointerId);
+        e.preventDefault();
+        hapticLeverDragStart();   // 드득드득 시작
+    });
+
+    leverArea.addEventListener('pointermove', e => {
+        if (!leverDragging || leverAutoCompleted) return;
+        const { min, max } = getLeverRange();
+        const range  = max - min;
+        const deltaY = e.clientY - leverDragStartY;
+        const newTop = Math.max(min, Math.min(max, leverDragStartBallTop + deltaY));
+        setLeverBallTop(newTop);
+
+        // Auto-complete past threshold
+        if ((newTop - min) / range >= LEVER_SNAP_THRESHOLD) {
+            leverAutoCompleted = true;
+            leverDragging      = false;
+            hapticLeverDragStop();
+            hapticLeverSnap();    // 스냅 쿵-통통
+            leverArea.releasePointerCapture(e.pointerId);
+            setLeverBallTop(max);
+            springBackLever(max);
+            doSpin(true);
         }
-        buildStrips();
+    });
+
+    function onRelease(e) {
+        if (!leverDragging) return;
+        leverDragging = false;
+        hapticLeverDragStop();
+        hapticLeverRelease();    // 살짝 릴리즈
+        leverArea.releasePointerCapture(e.pointerId);
+        springBackLever(leverBallTop);  // spring back, no spin
     }
-}, true);
+    leverArea.addEventListener('pointerup',     onRelease);
+    leverArea.addEventListener('pointercancel', onRelease);
+})();
+
+// ════════════════════════════════════════════
+//   DETERMINE SPIN RESULTS (weighted)
+// ════════════════════════════════════════════
+function pickResults() {
+    // Each reel result is independently random
+    return [weightedRandom(), weightedRandom(), weightedRandom()];
+}
+
+// ════════════════════════════════════════════
+//   MAIN SPIN
+// ════════════════════════════════════════════
+async function doSpin(skipLeverAnim = false) {
+    if (spinning) return;
+    const bet = getBet();
+    if (chips < bet) {
+        showMsg('칩 부족!  베팅을 줄이세요.', 'lose');
+        return;
+    }
+
+    stopIdleAnim();
+    spinning = true;
+    setButtons(false);
+    setHighlight([]);
+    showMsg('SPINNING...', 'spin');
+
+    chips -= bet;
+    updateDisplays();
+
+    if (!skipLeverAnim) await animateLever();
+
+    const results = pickResults();
+
+    // Start all 3 reels simultaneously
+    for (let ri = 0; ri < 3; ri++) startReelSpin(ri);
+    hapticSpinRumbleStart();    // 드르르륵 시작
+
+    // Stop reels left → right with delay
+    await sleep(1400);
+    await stopReel(0, results[0]);
+    hapticReelStop();                       // 첫 번째 릴 딸깍
+    hapticSpinRumbleSetLevel(0.65);         // 룰 강도 낮춤
+
+    await sleep(500);
+    await stopReel(1, results[1]);
+    hapticReelStop();                       // 두 번째 릴 딸깍
+    hapticSpinRumbleSetLevel(0.3);          // 룰 강도 더 낮춤
+
+    await sleep(500);
+    await stopReel(2, results[2]);
+    hapticSpinRumbleStop();                 // 룰 종료
+    hapticReelStop();                       // 세 번째 릴 딸깍
+
+    // Evaluate
+    const { mult, msg, hl } = evaluate(results);
+    if (mult > 0) {
+        const win = bet * mult;
+        chips  += win;
+        earned += win - bet; // net gain
+        setHighlight(hl);
+        showMsg(msg + '  ＋' + win.toLocaleString() + '칩', 'win');
+        setTimeout(() => hapticWin(mult), 120);  // 당첨 축하 패턴
+        playWinAnim();
+    } else {
+        showMsg('꽝!  다시 도전하세요.', 'lose');
+        setTimeout(hapticLose, 80);  // 꽝 툭툭
+        startIdleAnim();
+    }
+
+    updateDisplays();
+    spinning = false;
+    setButtons(true);
+}
+
+// ════════════════════════════════════════════
+//   HAPTIC FEEDBACK
+// ════════════════════════════════════════════
+const HAS_VIB = 'vibrate' in navigator;
+function vib(pattern) { if (HAS_VIB) navigator.vibrate(pattern); }
+
+// Button press — sharp click (딸깍)
+function hapticClick() { vib(12); }
+
+// Lever drag — rhythmic pulse while pulling (드득드득)
+let _leverPulseTimer = null;
+function hapticLeverDragStart() {
+    if (!HAS_VIB) return;
+    clearTimeout(_leverPulseTimer);
+    let step = 0;
+    function pulse() {
+        if (!leverDragging && !leverAutoCompleted) return;
+        // Intensity builds as ball is pulled further
+        const { min, max } = getLeverRange();
+        const ratio = Math.max(0, Math.min(1, (leverBallTop - min) / (max - min)));
+        const dur = Math.round(8 + ratio * 14);   // 8→22ms
+        navigator.vibrate([dur, 42]);
+        _leverPulseTimer = setTimeout(pulse, 50);
+        step++;
+    }
+    pulse();
+}
+function hapticLeverDragStop() {
+    clearTimeout(_leverPulseTimer);
+    _leverPulseTimer = null;
+}
+
+// Lever snap to bottom (스냅!)
+function hapticLeverSnap() { vib([50, 20, 30]); }
+
+// Lever release without triggering spin (살짝 릴리즈)
+function hapticLeverRelease() { vib(20); }
+
+// Spin rumble — intensity 0.0~1.0, decreases as reels stop
+let _spinRumbleTimer = null;
+let _spinRumbleLevel = 1.0;
+let _rumbleActive    = false;
+
+function _rumbleLoop() {
+    if (!_rumbleActive) return;
+    // 강도 차이를 펄스 밀도(off 구간)로 표현 — 손으로 확실히 느낄 수 있게
+    // Level 1.0: on=22ms  off=3ms  → 거의 연속 진동 (강)
+    // Level 0.65: on=16ms off=22ms → 뚝뚝 끊기는 느낌 (중)
+    // Level 0.3: on=10ms  off=50ms → 드문드문 툭툭 (약)
+    const lv    = _spinRumbleLevel;
+    const onMs  = Math.round(6  + lv * 16);
+    const offMs = Math.round(3  + (1 - lv) * 52);
+    navigator.vibrate([onMs, offMs]);
+    _spinRumbleTimer = setTimeout(_rumbleLoop, onMs + offMs + 1);
+}
+function hapticSpinRumbleStart() {
+    if (!HAS_VIB) return;
+    _spinRumbleLevel = 1.0;
+    _rumbleActive    = true;
+    clearTimeout(_spinRumbleTimer);
+    _rumbleLoop();
+}
+function hapticSpinRumbleSetLevel(level) {
+    _spinRumbleLevel = Math.max(0, Math.min(1, level));
+}
+function hapticSpinRumbleStop() {
+    _rumbleActive = false;
+    clearTimeout(_spinRumbleTimer);
+    _spinRumbleTimer = null;
+    if (HAS_VIB) navigator.vibrate(0);
+}
+
+// Reel stop click — 딸깍
+// Pauses the rumble timer so the click isn't immediately overridden,
+// then resumes the rumble loop after the click pattern finishes (~40ms).
+function hapticReelStop() {
+    if (!HAS_VIB) return;
+    clearTimeout(_spinRumbleTimer);          // pause rumble
+    navigator.vibrate([18, 12, 10]);         // click (40 ms total)
+    if (_rumbleActive) {
+        _spinRumbleTimer = setTimeout(_rumbleLoop, 50);  // resume
+    }
+}
+
+// Win celebration — intensity scales with multiplier
+function hapticWin(mult) {
+    const beats = Math.min(12, Math.max(2, Math.round(mult / 5)));
+    const pat = [];
+    for (let i = 0; i < beats; i++) { pat.push(30); pat.push(18); }
+    vib(pat);
+}
+
+// Lose (툭툭)
+function hapticLose() { vib([18, 28, 18]); }
+
+// ════════════════════════════════════════════
+//   BUTTON ANIMATIONS
+// ════════════════════════════════════════════
+function startIdleAnim() {
+    document.querySelectorAll('.push-btn').forEach(b => b.classList.add('idle-anim'));
+}
+function stopIdleAnim() {
+    document.querySelectorAll('.push-btn').forEach(b => b.classList.remove('idle-anim'));
+}
+function playWinAnim() {
+    const btns = document.querySelectorAll('.push-btn');
+    btns.forEach(b => {
+        b.classList.remove('idle-anim', 'win-anim');
+        void b.offsetWidth; // force reflow to restart animation
+        b.classList.add('win-anim');
+    });
+    setTimeout(() => {
+        btns.forEach(b => b.classList.remove('win-anim'));
+        startIdleAnim();
+    }, 0.45 * 5 * 1000 + 150);
+}
+
+// ════════════════════════════════════════════
+//   UI HELPERS
+// ════════════════════════════════════════════
+function showMsg(txt, type) {
+    const el  = document.getElementById('result-header');
+    const sub = document.getElementById('result-sub');
+    el.className = type ? 'state-' + type : '';
+    if (txt) {
+        el.textContent = txt;
+        sub.style.visibility = 'hidden';
+    } else {
+        el.textContent = "SHUU'S VEGAS";
+        sub.style.visibility = '';
+    }
+}
+function setButtons(enabled) {
+    ['btn-spin','btn-bet-up','btn-bet-dn','btn-max','btn-pay','btn-reset'].forEach(id => {
+        document.getElementById(id).disabled = !enabled;
+    });
+    document.getElementById('lever').style.pointerEvents = enabled ? '' : 'none';
+}
+function resetGame() {
+    if (spinning) return;
+    chips   = INIT_CHIPS;
+    earned  = 0;
+    betIdx  = 3;
+    setHighlight([]);
+    updateDisplays();
+    showMsg('');
+    startIdleAnim();
+}
+function changeBet(dir) {
+    if (spinning) return;
+    betIdx = Math.max(0, Math.min(BET_STEPS.length - 1, betIdx + dir));
+    // Make sure bet ≤ chips
+    while (betIdx > 0 && BET_STEPS[betIdx] > chips) betIdx--;
+    updateDisplays();
+}
+function setMaxBet() {
+    if (spinning) return;
+    betIdx = BET_STEPS.length - 1;
+    while (betIdx > 0 && BET_STEPS[betIdx] > chips) betIdx--;
+    updateDisplays();
+}
+
+// ════════════════════════════════════════════
+//   EVENT LISTENERS
+// ════════════════════════════════════════════
+// Button haptic — click feedback on all push-btn presses
+document.querySelector('.controls').addEventListener('pointerdown', e => {
+    if (e.target.closest('.push-btn')) hapticClick();
+});
+
+document.getElementById('btn-spin').addEventListener('click', doSpin);
+document.getElementById('btn-bet-up').addEventListener('click', () => changeBet(+1));
+document.getElementById('btn-bet-dn').addEventListener('click', () => changeBet(-1));
+document.getElementById('btn-max').addEventListener('click', setMaxBet);
+document.getElementById('btn-pay').addEventListener('click', () => {
+    document.getElementById('paytable-overlay').classList.add('open');
+});
+document.getElementById('btn-reset').addEventListener('click', resetGame);
+document.getElementById('btn-pay-close').addEventListener('click', () => {
+    document.getElementById('paytable-overlay').classList.remove('open');
+});
+// Lever interaction is handled by initLeverInteraction() above (pointer events)
+
+// Keyboard
+document.addEventListener('keydown', e => {
+    if (e.target.tagName === 'INPUT') return;
+    const key = e.key.toLowerCase();
+    if (key === 'w') doSpin();
+    else if (key === 'e') changeBet(+1);
+    else if (key === 'q') changeBet(-1);
+    else if (key === 's') setMaxBet();
+    else if (key === 'f') document.getElementById('btn-pay').click();
+    else if (key === 'escape') document.getElementById('paytable-overlay').classList.remove('open');
+});
+
+// Close modal on overlay click
+document.getElementById('paytable-overlay').addEventListener('click', e => {
+    if (e.target === document.getElementById('paytable-overlay'))
+        document.getElementById('paytable-overlay').classList.remove('open');
+});
+
+// ════════════════════════════════════════════
+//   INIT
+// ════════════════════════════════════════════
+initReels();
+updateDisplays();
+startIdleAnim();
 </script>
 </body>
 </html>
