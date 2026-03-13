@@ -320,18 +320,53 @@
         .reels-inner {
             display: flex;
             height: calc(var(--sym-h) * 3);
-            gap: 6px;
             perspective: 600px;
         }
         .reel-col {
             flex: 1;
             overflow: hidden;
             position: relative;
-            border-radius: 3px;
             transform: rotateX(6deg);
             transform-style: preserve-3d;
-            box-shadow: 0 4px 12px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.3);
         }
+
+        /* Chrome fin divider between reels */
+        .reel-divider {
+            width: 13px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 5;
+            /* Rounded chrome surface: dark edges → bright center highlight */
+            background:
+                linear-gradient(180deg, rgba(0,0,0,.35) 0%, transparent 10%, transparent 90%, rgba(0,0,0,.35) 100%),
+                linear-gradient(90deg,
+                    #2c2c2c 0%,
+                    #888888 14%,
+                    #e4e4e4 35%,
+                    #ffffff 50%,
+                    #dcdcdc 65%,
+                    #848484 86%,
+                    #282828 100%
+                );
+            box-shadow:
+                3px 0 7px rgba(0,0,0,.6),
+                -3px 0 7px rgba(0,0,0,.6),
+                inset 0 2px 0 rgba(255,255,255,.25),
+                inset 0 -2px 0 rgba(0,0,0,.25);
+        }
+        /* Tiny top/bottom tabs — machined-metal look */
+        .reel-divider::before,
+        .reel-divider::after {
+            content: '';
+            position: absolute;
+            left: -2px; right: -2px;
+            height: 5px;
+            background: linear-gradient(90deg,
+                #1e1e1e 0%, #707070 20%, #c8c8c8 50%, #686868 80%, #181818 100%);
+            box-shadow: 0 1px 4px rgba(0,0,0,.6);
+        }
+        .reel-divider::before { top: 0; }
+        .reel-divider::after  { bottom: 0; }
         .reel-strip {
             display: flex;
             flex-direction: column;
@@ -891,7 +926,9 @@
                 <div class="payline"></div>
                 <div class="reels-inner">
                     <div class="reel-col" id="reel-0"><div class="reel-strip" id="strip-0"></div></div>
+                    <div class="reel-divider"></div>
                     <div class="reel-col" id="reel-1"><div class="reel-strip" id="strip-1"></div></div>
+                    <div class="reel-divider"></div>
                     <div class="reel-col" id="reel-2"><div class="reel-strip" id="strip-2"></div></div>
                 </div>
             </div>
@@ -1497,31 +1534,45 @@ function hapticLeverRelease() { vib(20); }
 // Spin rumble — intensity 0.0~1.0, decreases as reels stop
 let _spinRumbleTimer = null;
 let _spinRumbleLevel = 1.0;
+let _rumbleActive    = false;
+
+function _rumbleLoop() {
+    if (!_rumbleActive) return;
+    // Full (1.0): on=20ms off=4ms  → 강한 룰
+    // Low  (0.3): on=8ms  off=10ms → 잔잔한 룰
+    const onMs  = Math.round(8  + _spinRumbleLevel * 12);
+    const offMs = Math.round(14 - _spinRumbleLevel * 10);
+    navigator.vibrate([onMs, offMs]);
+    _spinRumbleTimer = setTimeout(_rumbleLoop, onMs + offMs + 1);
+}
 function hapticSpinRumbleStart() {
     if (!HAS_VIB) return;
     _spinRumbleLevel = 1.0;
+    _rumbleActive    = true;
     clearTimeout(_spinRumbleTimer);
-    function rumble() {
-        // Full (1.0): on=20ms off=4ms → 24ms cycle (강한 룰)
-        // Low  (0.3): on=8ms  off=10ms → 18ms cycle (잔잔)
-        const onMs  = Math.round(8  + _spinRumbleLevel * 12);
-        const offMs = Math.round(14 - _spinRumbleLevel * 10);
-        navigator.vibrate([onMs, offMs]);
-        _spinRumbleTimer = setTimeout(rumble, onMs + offMs + 1);
-    }
-    rumble();
+    _rumbleLoop();
 }
 function hapticSpinRumbleSetLevel(level) {
     _spinRumbleLevel = Math.max(0, Math.min(1, level));
 }
 function hapticSpinRumbleStop() {
+    _rumbleActive = false;
     clearTimeout(_spinRumbleTimer);
     _spinRumbleTimer = null;
     if (HAS_VIB) navigator.vibrate(0);
 }
 
-// Reel stop click — 딸깍 (short sharp double-tap)
-function hapticReelStop() { vib([18, 12, 10]); }
+// Reel stop click — 딸깍
+// Pauses the rumble timer so the click isn't immediately overridden,
+// then resumes the rumble loop after the click pattern finishes (~40ms).
+function hapticReelStop() {
+    if (!HAS_VIB) return;
+    clearTimeout(_spinRumbleTimer);          // pause rumble
+    navigator.vibrate([18, 12, 10]);         // click (40 ms total)
+    if (_rumbleActive) {
+        _spinRumbleTimer = setTimeout(_rumbleLoop, 50);  // resume
+    }
+}
 
 // Win celebration — intensity scales with multiplier
 function hapticWin(mult) {
