@@ -168,6 +168,10 @@
         <p class="mt-6 text-slate-600 text-xs">
             렌주룰: 흑 기준 쌍삼·쌍사·장목(6목 이상) 금수 적용
         </p>
+        <a href="index.html"
+           class="inline-block mt-4 text-slate-600 hover:text-slate-400 text-xs transition-colors">
+            ← 홈으로 돌아가기
+        </a>
     </div>
 </div>
 
@@ -817,8 +821,9 @@ function renderBoard() {
         ctx.fill();
     }
 
-    // 금수 표시: 내 차례이고 내가 흑일 때만
-    if (!gameOver && myTurn && myColor === 'black') {
+    // 금수 표시: 흑 플레이어는 항상 표시 (상대 차례에도 다음 수 계획을 위해)
+    // myTurn 조건을 제거 — myTurn 때문에 착수 후 X가 사라지는 버그의 근본 원인이었음
+    if (!gameOver && myColor === 'black') {
         drawForbidden(ctx);
     }
 }
@@ -964,6 +969,7 @@ function isOverline(r, c) {
     return false;
 }
 
+// getLineCount: 한 방향(양방향)으로 연속된 같은 색 돌 수 카운트
 function getLineCount(r, c, dr, dc, color) {
     let cnt = 1;
     for (let d = 1; d <= 5; d++) {
@@ -979,64 +985,95 @@ function getLineCount(r, c, dr, dc, color) {
     return cnt;
 }
 
-function isLineFive(r, c, dr, dc, color) {
-    return getLineCount(r, c, dr, dc, color) >= 5;
+// 셀이 보드 내부이고 비어 있는지 확인
+function isCellEmpty(r, c) {
+    if (r < 0 || r >= BOARD_SIZE || c < 0 || c >= BOARD_SIZE) return false;
+    return board[r][c] === 0;
 }
 
-function isFour(r, c, dr, dc) {
-    return getLineCount(r, c, dr, dc, 1) === 4 && !isLineFive(r, c, dr, dc, 1);
-}
+// ── 쌍사 판정 ──────────────────────────────────────────────────────────────
+// 방향 [dr,dc]에서 (r,c)가 "사(4)"의 일부인지 확인
+// 알고리즘: 5칸 윈도우를 슬라이딩하며 흑4+빈1 조합 탐색
+//   → 빈 칸을 채웠을 때 정확히 5목이 되어야만 유효한 "사"
+//   (장목 방지: 6목 이상이 되면 제외)
+// 이 방식은 연속사(XXXX_)뿐 아니라 갭사(XX_XX, XXX_X 등)도 모두 감지
+function isFourInDir(r, c, dr, dc) {
+    for (let k = 0; k <= 4; k++) {
+        const r0 = r - k*dr, c0 = c - k*dc;
+        const r4 = r0 + 4*dr, c4 = c0 + 4*dc;
+        if (r0 < 0 || r0 >= BOARD_SIZE || c0 < 0 || c0 >= BOARD_SIZE) continue;
+        if (r4 < 0 || r4 >= BOARD_SIZE || c4 < 0 || c4 >= BOARD_SIZE) continue;
 
-function countFours(r, c) {
-    let count = 0;
-    for (const [dr, dc] of DIRS) if (isFour(r, c, dr, dc)) count++;
-    return count;
-}
+        let blacks = 0, emptyR = -1, emptyC = -1, valid = true;
+        for (let i = 0; i <= 4; i++) {
+            const ri = r0 + i*dr, ci = c0 + i*dc;
+            const v = board[ri][ci];
+            if (v === 1) blacks++;
+            else if (v === 0) {
+                if (emptyR !== -1) { valid = false; break; } // 빈 칸 2개 이상 → 사 아님
+                emptyR = ri; emptyC = ci;
+            } else { valid = false; break; } // 백돌·벽 → 사 아님
+        }
+        if (!valid || blacks !== 4) continue;
 
-function isDoubleFour(r, c) { return countFours(r, c) >= 2; }
-
-function getSequence(r, c, dr, dc) {
-    const seq = [];
-    for (let d = -4; d <= 4; d++) {
-        const nr = r + dr*d, nc = c + dc*d;
-        if (nr < 0 || nr >= BOARD_SIZE || nc < 0 || nc >= BOARD_SIZE) seq.push(-1);
-        else seq.push(board[nr][nc]);
+        // 빈 칸을 채웠을 때 정확히 5목인지 검증 (6목 이상이면 사가 아님)
+        board[emptyR][emptyC] = 1;
+        const len = getLineCount(emptyR, emptyC, dr, dc, 1);
+        board[emptyR][emptyC] = 0;
+        if (len === 5) return true;
     }
-    return seq;
-}
-
-function matchPattern(seq, start, pat, mustInclude) {
-    if (start + pat.length > seq.length) return false;
-    let includes = false;
-    for (let i = 0; i < pat.length; i++) {
-        const v = seq[start + i] === 1 ? 1 : (seq[start + i] === 0 ? 0 : 2);
-        if (pat[i] !== v) return false;
-        if (start + i === mustInclude && pat[i] === 1) includes = true;
-    }
-    return includes;
-}
-
-function checkOpenThreeSeq(seq) {
-    const center = 4;
-    const openThreePatterns = [
-        [0,1,1,1,0],
-        [0,1,0,1,1,0],
-        [0,1,1,0,1,0],
-    ];
-    for (let start = 0; start <= 4; start++)
-        for (const pat of openThreePatterns)
-            if (matchPattern(seq, start, pat, center)) return true;
     return false;
 }
 
-function isOpenThree(r, c, dr, dc) {
-    return checkOpenThreeSeq(getSequence(r, c, dr, dc));
+function isDoubleFour(r, c) {
+    let fours = 0;
+    for (const [dr, dc] of DIRS) if (isFourInDir(r, c, dr, dc)) fours++;
+    return fours >= 2;
+}
+
+// ── 쌍삼 판정 ──────────────────────────────────────────────────────────────
+// 방향 [dr,dc]에서 (r,c)가 "열린 삼"의 일부인지 확인
+//
+// 정의: 열린 삼 = 한 번 더 두면 "열린 사(_XXXX_)"가 되는 3개의 돌
+//   즉, 6칸 윈도우 [ _ | X X X _ | _ ] 형태에서
+//       - 경계(pos 0, pos 5): 반드시 빈 칸 (양쪽 모두 열려야 함)
+//       - 내부 4칸(pos 1~4): 흑 3개 + 빈 1개 (백돌·벽 없음)
+//       - (r,c)는 반드시 내부 흑돌 3개 중 하나여야 함
+//
+// 이 방식의 장점:
+//   1. start 범위 모호성 없음 — k(1~4)는 (r,c)가 윈도우 내 어느 흑돌인지를 의미
+//   2. 연속삼(_XXX_), 갭삼(_X_XX_, _XX_X_) 모두 자동 포함
+//   3. 한쪽이 막힌 반열린삼(○XXX_)은 제외 — 렌주룰 준수
+function isOpenThreeInDir(r, c, dr, dc) {
+    for (let k = 1; k <= 4; k++) {
+        const r0 = r - k*dr, c0 = c - k*dc;   // 윈도우 왼쪽 경계
+        const r5 = r0 + 5*dr, c5 = c0 + 5*dc; // 윈도우 오른쪽 경계
+
+        // 양쪽 경계가 모두 비어 있어야 "열린 삼" (핵심 조건)
+        if (!isCellEmpty(r0, c0)) continue;
+        if (!isCellEmpty(r5, c5)) continue;
+
+        // 내부 4칸 검사: 흑 3개 + 빈 1개, 백돌·벽 없음
+        let blacks = 0, valid = true;
+        for (let i = 1; i <= 4; i++) {
+            const ri = r0 + i*dr, ci = c0 + i*dc;
+            if (ri < 0 || ri >= BOARD_SIZE || ci < 0 || ci >= BOARD_SIZE) {
+                valid = false; break;
+            }
+            const v = board[ri][ci];
+            if (v === 1) blacks++;
+            else if (v === 2) { valid = false; break; } // 백돌이 내부에 있으면 열린 삼 불가
+            // v === 0 (빈 칸): 갭 허용
+        }
+        if (valid && blacks === 3) return true;
+    }
+    return false;
 }
 
 function isDoubleThree(r, c) {
-    let openThrees = 0;
-    for (const [dr, dc] of DIRS) if (isOpenThree(r, c, dr, dc)) openThrees++;
-    return openThrees >= 2;
+    let threes = 0;
+    for (const [dr, dc] of DIRS) if (isOpenThreeInDir(r, c, dr, dc)) threes++;
+    return threes >= 2;
 }
 
 // ════════════════════════════════════════════════════════════
